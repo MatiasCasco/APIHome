@@ -131,17 +131,16 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
     
     @Override
     public boolean containsNameCurso(String Curso) {
-         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
-//        try {
-//            Curso curso = (Curso) this.findByNameCurso(Curso);
-//            if(Curso.equals(curso.getNombre())){
-//                return true;
-//            } ;
-//        } catch (Exception ex) {
-//            //Exception Handler
-//        }
-//        return false;
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Curso curso = (Curso) this.findByNameCurso(Curso);
+            if(Curso.equals(curso.getNombre())){
+                return true;
+            } ;
+        } catch (Exception ex) {
+            //Exception Handler
+        }
+        return false;
     }
     
     @Override
@@ -177,10 +176,10 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("INSERT INTO curso (idprofesor, nombrecurso, claveprofesor, clavealumno) values (?, ?, ?, ?)");
+            pstmt = c.prepareStatement("INSERT INTO curso (nombrecurso, idprofesor, claveprofesor, clavealumno) values (?, ?, ?, ?)");
 
-            pstmt.setInt(1, (entity.getIdProfesor() == 0)?4:entity.getIdProfesor() );
-            pstmt.setString(2, entity.getNombre());
+            pstmt.setString(1, entity.getNombre());
+            pstmt.setInt(2, (entity.getIdProfesor() == 0)?4:entity.getIdProfesor() ); //creo que es sin profesor confirmado o algo por el estilo
             pstmt.setString(3, entity.getClaveProfesor());
             pstmt.setString(4, entity.getClaveAlumno());
             

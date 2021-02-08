@@ -42,6 +42,13 @@ public class Curso {
         this.claveAlumno = claveAlumno;
     }
 
+    public Curso(String nombre, int idProfesor, String claveProfesor, String claveAlumno) {
+        this.nombre = nombre;
+        this.idProfesor = idProfesor;
+        this.claveProfesor = claveProfesor;
+        this.claveAlumno = claveAlumno;
+    }
+    
     public int getIdCurso() {
         return idCurso;
     }
