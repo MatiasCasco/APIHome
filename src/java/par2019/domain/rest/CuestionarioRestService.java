@@ -43,9 +43,10 @@ public class CuestionarioRestService {
     @GET
     @Path("/cuestionariosOFmateria/{materia}")
     @Produces("application/json")
-    public ArrayList<Cuestionario> getCuestionariosOfMateria(@PathParam("materia") String materia) throws Exception {
+    public ArrayList<Cuestionario> getCuestionariosOFmateria(@PathParam("materia") String materia) throws Exception  {
         ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByNameMateria(materia);
         return cuestionarios;
+       
     }
 
     @GET
@@ -61,6 +62,22 @@ public class CuestionarioRestService {
         return null;
     }
     
+    @GET 
+    @Path("/cuestionariosOFCurso/{curso}")
+    @Produces("application/json")
+    public ArrayList<Cuestionario> getCuestionariosOfCurso(@PathParam("curso") String curso) throws Exception {
+        ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByNameCurso(curso);
+        return cuestionarios;
+    }
+    
+    @GET
+    @Path("/cursoName/{cursoName}/materiaName/{materiaName}")
+    @Produces("application/json")
+    public ArrayList<Cuestionario> getCuestionariosOfCursoAndMateria(@PathParam("cursoName") String cursoName, @PathParam("materiaName") String materiaName) throws Exception {
+          ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByNameCursoAndMateria(cursoName, materiaName);
+        return cuestionarios;
+    }
+//    
     @POST
     @Path("/cuestionario")
     @Consumes("application/json")

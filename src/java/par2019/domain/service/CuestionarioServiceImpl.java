@@ -67,12 +67,12 @@ public class CuestionarioServiceImpl extends BaseService<Cuestionario, Integer> 
     }
 
     @Override
-    public Collection<Cuestionario> findByNameMateria(String NameMateria) throws Exception {
+    public Collection<Cuestionario> findByNameMateria(String nameMateria) throws Exception {
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        if(!CuestionarioRepository.ContainsNameMateria(NameMateria)){
-            throw new Exception(String.format("No se encontro el nombre del profesor %s", NameMateria)); 
+        if(!CuestionarioRepository.ContainsNameMateria(nameMateria)){
+            throw new Exception(String.format("No se encontro el nombre de la materia %s", nameMateria)); 
         }
-        return CuestionarioRepository.findByNameMateria(NameMateria);
+        return CuestionarioRepository.findByNameMateria(nameMateria);
     }
 
     @Override
@@ -82,6 +82,27 @@ public class CuestionarioServiceImpl extends BaseService<Cuestionario, Integer> 
             throw new Exception(String.format("No se encontro el identificador %d del cuestionario", idCuestionario)); 
         }
         return CuestionarioRepository.getCuestionario(idCuestionario);
+    }
+
+    @Override
+    public Collection<Cuestionario> findByNameCurso(String nameCurso) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!CuestionarioRepository.ContainsNameCurso(nameCurso)){
+            throw new Exception(String.format("No se encontro el nombre del curso %s", nameCurso)); 
+        }
+        return CuestionarioRepository.findByNameCurso(nameCurso);
+    }
+
+    @Override
+    public Collection<Cuestionario> findByNameCursoAndMateria(String nameCurso, String nameMateria) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!CuestionarioRepository.ContainsNameCurso(nameCurso)){
+            throw new Exception(String.format("No se encontro el nombre del curso %s", nameCurso)); 
+        }
+        if(!CuestionarioRepository.ContainsNameMateria(nameMateria)){
+            throw new Exception(String.format("No se encontro el nombre de la materia %s", nameMateria)); 
+        }
+        return CuestionarioRepository.findByNameCursoAndMateria(nameCurso, nameMateria);
     }
     
 }

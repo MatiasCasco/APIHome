@@ -35,12 +35,12 @@ public interface CuestionarioService {
     public void delete(Integer id) throws Exception;
     
     /**
-     *  Criteria representa encontrar curso del profesor
-     * @param NameMateria
+     *  
+     * @param nameMateria
      * @return
      * @throws Exception
      */
-    public Collection<Cuestionario> findByNameMateria(String NameMateria) throws Exception;
+    public Collection<Cuestionario> findByNameMateria(String nameMateria) throws Exception;
  
     /**
      * Buscar el curso por su nombre
@@ -49,5 +49,22 @@ public interface CuestionarioService {
      * @throws Exception
      */
     public Cuestionario getCuestionario(int idCuestionario) throws Exception;
-
+    
+      /**
+     *  Criteria representa encontrar los cuestionarios de un curso
+     * @param nameCurso
+     * @return
+     * @throws Exception
+     */
+    public Collection<Cuestionario> findByNameCurso(String nameCurso) throws Exception;
+    
+      /**
+     *  Criteria representa encontrar los cuestionarios de un curso
+     * @param nameCurso
+     * @param nameMateria
+     * @return
+     * @throws Exception
+     */
+    public Collection<Cuestionario> findByNameCursoAndMateria(String nameCurso, String nameMateria) throws Exception;
+    
 }

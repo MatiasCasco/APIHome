@@ -133,7 +133,7 @@ public class JdbcPreguntaRepository implements PreguntaRepository<Pregunta, Inte
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                retValue.add(new Pregunta(rs.getInt("idpregunta"), rs.getInt("idcuestionario"), rs.getInt("puntoasignado"), rs.getInt("puntoobtenido"), rs.getString("pregunta"), rs.getBytes("foto").toString()));
+                retValue.add(new Pregunta(rs.getInt("idpregunta"), rs.getInt("idcuestionario"), rs.getInt("puntoasignado"), rs.getInt("puntoobtenido"), rs.getString("pregunta")));
             }
 
         } catch (Exception e) {
