@@ -33,7 +33,7 @@ public class JdbcRespuestaRepository implements RespuestaRepository<Respuesta, I
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select c.idcuestionario as Cuestionario, p.idpregunta as Pregunta,r.idrta as RespuestaId ,r.rtas as Respuesta, r.evaluacion as Evaluacion"
+            pstmt = c.prepareStatement("select c.idcuestionario as Cuestionario, p.idpregunta as PreguntaId, p.pregunta as Pregunta,r.idrta as RespuestaId ,r.rtas as Respuesta, r.evaluacion as Evaluacion"
                     + " from cuestionario c, pregunta p, respuesta r\n" +
 "where c.idcuestionario = p.idcuestionario and p.idpregunta = r.idpregunta and c.idcuestionario = ?");
             pstmt.setInt(1, idCuestionario);
@@ -41,7 +41,7 @@ public class JdbcRespuestaRepository implements RespuestaRepository<Respuesta, I
             rs = pstmt.executeQuery();
 
             while (rs.next()) {  
-                retValue.add(new Respuesta(rs.getInt("Cuestionario"), rs.getInt("RespuestaId"), rs.getInt("Pregunta"), rs.getString("Respuesta"), rs.getBoolean("Evaluacion")));
+                retValue.add(new Respuesta(rs.getInt("Cuestionario"), rs.getInt("RespuestaId"), rs.getInt("PreguntaId"), rs.getString("Pregunta"), rs.getString("Respuesta"), rs.getBoolean("Evaluacion")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,7 +113,7 @@ public class JdbcRespuestaRepository implements RespuestaRepository<Respuesta, I
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select c.idcuestionario as Cuestionario, p.idpregunta as Pregunta,r.idrta as RespuestaId ,r.rtas as Respuesta, r.evaluacion as Evaluacion"
+            pstmt = c.prepareStatement("select c.idcuestionario as Cuestionario, p.idpregunta as PreguntaId, p.pregunta as Pregunta, r.idrta as RespuestaId ,r.rtas as Respuesta, r.evaluacion as Evaluacion"
                     + " from cuestionario c, pregunta p, respuesta r\n" +
 "where c.idcuestionario = p.idcuestionario and p.idpregunta = r.idpregunta and r.idrta = ?");
 
@@ -122,7 +122,7 @@ public class JdbcRespuestaRepository implements RespuestaRepository<Respuesta, I
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                retValue = new Respuesta(rs.getInt("Cuestionario"), rs.getInt("RespuestaId"), rs.getInt("Pregunta"), rs.getString("Respuesta"), rs.getBoolean("Evaluacion"));
+                retValue = new Respuesta(rs.getInt("Cuestionario"), rs.getInt("RespuestaId"), rs.getInt("PreguntaId"), rs.getString("Pregunta"), rs.getString("Respuesta"), rs.getBoolean("Evaluacion"));
             } 
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,13 +153,13 @@ public class JdbcRespuestaRepository implements RespuestaRepository<Respuesta, I
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT c.idcuestionario as Cuestionario, p.idpregunta as Pregunta, r.idrta as RespuestaId, r.rtas as Respuesta, r.evaluacion as Evaluacion"
+            pstmt = c.prepareStatement("SELECT c.idcuestionario as Cuestionario, p.idpregunta as PreguntaId, p.pregunta as Pregunta, r.idrta as RespuestaId, r.rtas as Respuesta, r.evaluacion as Evaluacion"
                 + " FROM cuestionario c, pregunta p, respuesta r "
                 + "where c.idcuestionario = p.idcuestionario and p.idpregunta = r.idpregunta and r.idpregunta = ?");
             pstmt.setInt(1, idPregunta);            
             rs = pstmt.executeQuery();
             while (rs.next()) { 
-                retValue.add(new Respuesta(rs.getInt("Cuestionario"), rs.getInt("RespuestaId"), rs.getInt("Pregunta"), rs.getString("Respuesta"), rs.getBoolean("Evaluacion")));
+                retValue.add(new Respuesta(rs.getInt("Cuestionario"), rs.getInt("RespuestaId"), rs.getInt("PreguntaId"), rs.getString("Pregunta"), rs.getString("Respuesta"), rs.getBoolean("Evaluacion")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -275,12 +275,12 @@ public class JdbcRespuestaRepository implements RespuestaRepository<Respuesta, I
         ResultSet rs = null;
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT c.idcuestionario as Cuestionario, p.idpregunta as Pregunta,r.idrta as RespuestaId, r.rtas as Respuesta, r.evaluacion as Evaluacion "
+            pstmt = c.prepareStatement("SELECT c.idcuestionario as Cuestionario, p.idpregunta as PreguntaId, p.pregunta as Pregunta, r.idrta as RespuestaId, r.rtas as Respuesta, r.evaluacion as Evaluacion "
                     + "FROM cuestionario c, pregunta p, respuesta r "
                     + "where c.idcuestionario = p.idcuestionario and p.idpregunta = r.idpregunta");
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                retValue.add(new Respuesta(rs.getInt("Cuestionario"), rs.getInt("RespuestaId"), rs.getInt("Pregunta"), rs.getString("Respuesta"), rs.getBoolean("Evaluacion")));
+                retValue.add(new Respuesta(rs.getInt("Cuestionario"), rs.getInt("RespuestaId"), rs.getInt("PreguntaId"), rs.getString("Pregunta"),rs.getString("Respuesta"), rs.getBoolean("Evaluacion")));
             }
         } catch (Exception e) {
             e.printStackTrace();

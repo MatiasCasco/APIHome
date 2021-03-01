@@ -12,32 +12,44 @@ package par2019.domain.model.entity;
 public class Cuestionario {
     private int idCuestionario;
     private int idMateria;
+    private String nombreMateria;
     private String fechaCierre;
     private String fechaInicio;
     private int puntos;
     private String tiempoLimite;
     private int idCurso;
-    private String nameCurso;
+    private String nombreCurso;
     public Cuestionario() {
     }
 
-    public Cuestionario(int idCuestionario, int idMateria, String fechaCierre, String fechaInicio, int puntos, String tiempoLimite, int idCurso, String nameCurso) {
+    public Cuestionario(int idCuestionario, int idMateria, String nombreMateria, String fechaCierre, String fechaInicio, int puntos, String tiempoLimite, int idCurso, String nombreCurso) {
         this.idCuestionario = idCuestionario;
         this.idMateria = idMateria;
+        this.nombreMateria = nombreMateria;
         this.fechaCierre = fechaCierre;
         this.fechaInicio = fechaInicio;
         this.puntos = puntos;
         this.tiempoLimite = tiempoLimite;
         this.idCurso = idCurso;
-        this.nameCurso = nameCurso;
+        this.nombreCurso = nombreCurso;
     }
 
-    public String getNameCurso() {
-        return nameCurso;
+//    public Cuestionario(int idCuestionario, int idMateria, String fechaCierre, String fechaInicio, int puntos, String tiempoLimite, int idCurso) {
+//        this.idCuestionario = idCuestionario;
+//        this.idMateria = idMateria;
+//        this.fechaCierre = fechaCierre;
+//        this.fechaInicio = fechaInicio;
+//        this.puntos = puntos;
+//        this.tiempoLimite = tiempoLimite;
+//        this.idCurso = idCurso;
+//    } 
+    
+    public String getNombreCurso() {
+        return nombreCurso;
     }
 
-    public void setNameCurso(String nameCurso) {
-        this.nameCurso = nameCurso;
+    public void setNombreCurso(String nombreCurso) {
+        this.nombreCurso = nombreCurso;
     }
 
     public int getIdCurso() {
@@ -89,7 +101,13 @@ public class Cuestionario {
         this.tiempoLimite = tiempoLimite;
     }
 
-    
+    public String getNombreMateria() {
+        return nombreMateria;
+    }
+
+    public void setNombreMateria(String nombreMateria) {
+        this.nombreMateria = nombreMateria;
+    }
 
     public int getPuntos() {
         return puntos;
@@ -104,12 +122,13 @@ public class Cuestionario {
         //return "Cuestionario{" + "id=" + id + ", materia=" + materia + ", fechaFin=" + fechaFin + ", fechaInicio=" + fechaInicio + ", puntos=" + puntos + ", limite=" + limite + '}';
         return new StringBuilder("{idcuestionario: ").append(idCuestionario)
                 .append(", idmateria: ").append(idMateria)
+                .append(", nombremateria: ").append(nombreMateria)
                 .append(", fechacierre: ").append(fechaCierre)
                 .append(", fechainicio: ").append(fechaInicio)
                 .append(", puntos: ").append(puntos)
                 .append(", tiempolimite:").append(tiempoLimite)
                 .append(", idcurso:").append(idCurso)
-                .append(", namecurso:").append(nameCurso)
+                .append(", nombrecurso:").append(nombreCurso)
                 .append("}").toString();                
     }
    

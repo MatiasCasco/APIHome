@@ -34,7 +34,7 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select c.idcurso, c.idprofesor, c.nombrecurso, c.claveprofesor,"
+            pstmt = c.prepareStatement("select c.idcurso, c.idprofesor, p.nombre as nombreprofesor, c.nombrecurso, c.claveprofesor,"
                     + " c.clavealumno from curso c, persona p\n" +
             "where c.idprofesor = p.id and UPPER(p.nombre) like UPPER(?) and p.rol = 1");
             pstmt.setString(1, Criteria);
@@ -42,7 +42,7 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {  
-                retValue.add(new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"),rs.getInt("idprofesor"), rs.getString("claveprofesor"), rs.getString("clavealumno")));
+                retValue.add(new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"),rs.getInt("idprofesor"), rs.getString("nombreprofesor"),rs.getString("claveprofesor"), rs.getString("clavealumno")));
             }
             
             return retValue;
@@ -74,13 +74,15 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT * FROM curso WHERE UPPER(nombrecurso) like UPPER(?)");
+            pstmt = c.prepareStatement("SELECT c.idcurso, c.idprofesor, p.nombre as nombreprofesor, c.nombrecurso, c.claveprofesor,"
+                    + " c.clavealumno  from curso c, persona p\n" +
+            "where c.idprofesor = p.id and UPPER(c.nombrecurso) like UPPER(?)");
             pstmt.setString(1, Name);
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {  
-                retValue.add(new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"),rs.getInt("idprofesor"), rs.getString("claveprofesor"), rs.getString("clavealumno")));
+                retValue.add(new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"),rs.getInt("idprofesor"), rs.getString("nombreprofesor"),rs.getString("claveprofesor"), rs.getString("clavealumno")));
             }
 //            } else {
 //                retValue = new Curso(0,null,null,0,null);
@@ -277,12 +279,14 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT * FROM curso");
+            pstmt = c.prepareStatement("SELECT c.idcurso, c.idprofesor, p.nombre as nombreprofesor, c.nombrecurso, c.claveprofesor,"
+                    + " c.clavealumno  from curso c, persona p\n" +
+            "where c.idprofesor = p.id");
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                retValue.add(new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"), rs.getInt("idprofesor"), rs.getString("claveprofesor"), rs.getString("clavealumno")));
+                retValue.add(new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"), rs.getInt("idprofesor"), rs.getString("nombreprofesor"),rs.getString("claveprofesor"), rs.getString("clavealumno")));
             }
 
         } catch (Exception e) {
@@ -312,13 +316,15 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
         ResultSet rs = null;
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT * FROM curso WHERE idcurso = ?");
+            pstmt = c.prepareStatement("SELECT c.idcurso, c.idprofesor, p.nombre as nombreprofesor, c.nombrecurso, c.claveprofesor,"
+                    + " c.clavealumno  from curso c, persona p\n" +
+            "where c.idprofesor = p.id and idcurso = ?");
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                retValue = new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"), rs.getInt("idprofesor"), rs.getString("claveprofesor"), rs.getString("clavealumno"));
+                retValue = new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"), rs.getInt("idprofesor"), rs.getString("nombreprofesor"),rs.getString("claveprofesor"), rs.getString("clavealumno"));
             } else {
-                retValue = new Curso(0," ",0," "," ");
+                retValue = new Curso(0," ",0,""," "," ");
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -14,6 +14,7 @@ public class Curso {
     private int idCurso;
     private String nombre;
     private int idProfesor;
+    private String nombreProfesor;
     private String claveProfesor;
     private String claveAlumno;
     
@@ -34,10 +35,11 @@ public class Curso {
     public Curso() {
     }
 
-    public Curso(int idCurso, String nombre, int idProfesor, String claveProfesor, String claveAlumno) {
+    public Curso(int idCurso, String nombre, int idProfesor, String nombreProfesor,String claveProfesor, String claveAlumno) {
         this.idCurso = idCurso;
         this.nombre = nombre;
         this.idProfesor = idProfesor;
+        this.nombreProfesor = nombreProfesor;
         this.claveProfesor = claveProfesor;
         this.claveAlumno = claveAlumno;
     }
@@ -48,6 +50,16 @@ public class Curso {
         this.claveProfesor = claveProfesor;
         this.claveAlumno = claveAlumno;
     }
+
+    public String getNombreProfesor() {
+        return nombreProfesor;
+    }
+
+    public void setNombreProfesor(String nombreProfesor) {
+        this.nombreProfesor = nombreProfesor;
+    }
+    
+    
     
     public int getIdCurso() {
         return idCurso;
@@ -95,6 +107,7 @@ public class Curso {
         //return "Curso{" + "idProfesr=" + idProfesr + ", claveProfesor=" + claveProfesor + ", claveAlumno=" + claveAlumno + '}';
         return new StringBuilder("{idcurso: ").append(idCurso)
                 .append(", idprofesor: ").append(idProfesor)
+                .append(", nombreprofesor: ").append(nombreProfesor)
                 .append(", nombrecurso: ").append(nombre)
                 .append(", claveprofesor: ").append(claveProfesor)
                 .append(", clavealumno: ").append(claveAlumno)

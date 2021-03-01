@@ -13,20 +13,26 @@ public class Respuesta {
     private int idCuestionario;
     private int idRta;
     private int idPregunta;
+    private String pregunta;
     private String respuesta;
     private Boolean evaluacion;
 
     public Respuesta() {
     }
 
-    public Respuesta(int idCuestionario, int idRta, int idPregunta, String respuesta, Boolean evaluacion) {
+    public Respuesta(int idCuestionario, int idRta, int idPregunta, String pregunta,String respuesta, Boolean evaluacion) {
         this.idCuestionario = idCuestionario;
         this.idRta = idRta;
         this.idPregunta = idPregunta;
+        this.pregunta = pregunta;
         this.respuesta = respuesta;
         this.evaluacion = evaluacion;
     }
     
+    public String getPregunta() {
+        return pregunta;
+    }
+
 //    public Respuesta(int idCuestionario, int idPregunta, String respuesta) {
 //        this.idCuestionario = idCuestionario;
 //        this.idPregunta = idPregunta;
@@ -39,7 +45,11 @@ public class Respuesta {
 //        this.respuesta = respuesta;
 //        this.evaluacion = evaluacion;
 //    }
-//    
+//
+    public void setPregunta(String pregunta) {    
+        this.pregunta = pregunta;
+    }
+
     public int getIdCuestionario() {
         return idCuestionario;
     }
@@ -85,6 +95,7 @@ public class Respuesta {
         // return "Respuesta{" + "idRta=" + idRta + ", idPregunta=" + idPregunta + ", rtas=" + rtas + ", evaluacion=" + evaluacion + '}';
         return new StringBuilder("{idRta: ").append(idRta)
                 .append(", idpregunta: ").append(idPregunta)
+                .append(", pregunta: ").append(pregunta)
                 .append(", respuesta: ").append(respuesta)
                 .append(", evaluacion: ").append(evaluacion)
                 .append("}").toString();
