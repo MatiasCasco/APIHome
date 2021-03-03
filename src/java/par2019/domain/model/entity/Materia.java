@@ -11,18 +11,29 @@ package par2019.domain.model.entity;
  */
 public class Materia {
     private int idMateria;
-    private int idCurso;
     private String nombre;
+    private int idCurso;
+    private String nombreCurso;
+    
 
     public Materia() {
     }
 
-    public Materia(int idMateria, int idCurso, String nombre) {
+    public Materia(int idMateria,  String nombre, int idCurso, String nombreCurso) {
         this.idMateria = idMateria;
-        this.idCurso = idCurso;
         this.nombre = nombre;
+        this.idCurso = idCurso;
+        this.nombreCurso = nombreCurso;
     }
 
+    public String getNombreCurso() {
+        return nombreCurso;
+    }
+
+    public void setNombreCurso(String nombreCurso) {
+        this.nombreCurso = nombreCurso;
+    }
+    
     public int getIdMateria() {
         return idMateria;
     }
@@ -50,8 +61,10 @@ public class Materia {
     @Override
     public String toString() {
         return new StringBuilder("{idmateria: ").append(idMateria)
+                .append(", nombremateria: ").append(nombre)
                 .append(", idcurso: ").append(idCurso)
-                .append(", nombremateria: ").append(nombre).append("}").toString();
+                .append(", nombrecurso: ").append(nombreCurso)
+                .append("}").toString();
     }
     
     

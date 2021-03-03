@@ -44,7 +44,7 @@ public class MateriaRestService {
     @GET
     @Path("/cursoN/{cursoN}/materiaN/{materiaN}")
     @Produces("application/json")
-    public Materia getMateria(@PathParam("cursoN") String cursoN, @PathParam("materiaN") String materiaN) throws Exception {
+    public Materia getMateriaCurso(@PathParam("cursoN") String cursoN, @PathParam("materiaN") String materiaN) throws Exception {
         Materia materia =  materiaService.findMateriaInCurso(cursoN, materiaN);
         return materia;
     }
@@ -52,7 +52,7 @@ public class MateriaRestService {
     @GET
     @Path("/materias/{NameMateria}")
     @Produces("application/json")
-    public ArrayList<Materia> getCursoName(@PathParam("NameMateria") String NameMateria){
+    public ArrayList<Materia> getMateriaInCursos(@PathParam("NameMateria") String NameMateria){
        ArrayList<Materia> materias = new ArrayList();
         try {
             materias = (ArrayList<Materia>) materiaService.findByNameMateria(NameMateria);
@@ -75,12 +75,24 @@ public class MateriaRestService {
         return materias;
     }
       
+    @GET
+    @Path("/materia/{idMateria}")
+    @Produces("application/json")
+    public Materia getMateria(@PathParam("idMateria") int idMateria){
+       Materia materia = null;
+        try {
+            materia = (Materia) materiaService.findByIdMateria(idMateria);
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return materia;
+    }
     
     @POST
     @Path("/materia")
     @Consumes("application/json")
     @Produces("application/json")
-    public Materia addCurso(Materia entity) throws Exception{
+    public Materia addMateria(Materia entity) throws Exception{
       materiaService.add(entity);
       return entity;
     }
@@ -88,7 +100,7 @@ public class MateriaRestService {
     @PUT
     @Path("/materia")
     @Consumes("application/json")
-    public void updateCurso(Materia entity) {
+    public void updateMateria(Materia entity) {
         try {
             materiaService.update(entity);
         } catch (Exception ex) {
@@ -98,7 +110,7 @@ public class MateriaRestService {
 
     @DELETE
     @Path("/materia/{id}")
-    public void removeCurso(@PathParam("id") Integer id) {
+    public void removeMateria(@PathParam("id") Integer id) {
         try {
             materiaService.delete(id);
         } catch (Exception ex) {

@@ -31,7 +31,7 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
             PreparedStatement pstmt = null;
             ResultSet rs = null;
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select * from materia where idcurso = ? and nombremateria ilike ?");
+            pstmt = c.prepareStatement("select * from materia where idcurso = ? and UPPER(nombremateria) like UPPER(?)");
             pstmt.setInt(1, idCurso);
             pstmt.setString(2, materia);
 
@@ -58,14 +58,14 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
         
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT m.idmateria, m.idcurso, m.nombremateria FROM materia m, curso c WHERE m.idcurso = c.idcurso and nombremateria ilike ? and nombrecurso ilike ?");
+            pstmt = c.prepareStatement("SELECT m.idmateria, m.idcurso, m.nombremateria,c.nombrecurso FROM materia m, curso c WHERE m.idcurso = c.idcurso and UPPER(M.nombremateria) like UPPER(?) and UPPER(c.nombrecurso) like UPPER(?) ORDER BY m.idmateria");
             pstmt.setString(1, NameMateria);
             pstmt.setString(2, NameCurso);
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                retValue = new Materia(rs.getInt("idmateria"), rs.getInt("idcurso"), rs.getString("nombremateria"));
+                retValue = new Materia(rs.getInt("idmateria"), rs.getString("nombremateria"), rs.getInt("idcurso"), rs.getString("nombrecurso"));
             }
 
         } catch (Exception e) {
@@ -97,15 +97,15 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT * FROM materia WHERE idmateria = ?");
+            pstmt = c.prepareStatement("SELECT m.idmateria, m.idcurso, m.nombremateria,c.nombrecurso FROM materia m, curso c WHERE m.idcurso = c.idcurso and idmateria = ?");
             pstmt.setInt(1, idMateria);
 
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                retValue = new Materia(rs.getInt("idmateria"), rs.getInt("idcurso"), rs.getString("nombremateria"));
+                retValue = new Materia(rs.getInt("idmateria"), rs.getString("nombremateria"), rs.getInt("idcurso"), rs.getString("nombrecurso"));
             } else {
-                retValue = new Materia(0, 0, " ");
+                retValue = new Materia(0, " ", 0," ");
             }
 
         } catch (Exception e) {
@@ -137,13 +137,13 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
         
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT * FROM materia WHERE nombremateria = ?");
+            pstmt = c.prepareStatement("SELECT m.idmateria, m.idcurso, m.nombremateria,c.nombrecurso FROM materia m, curso c WHERE m.idcurso = c.idcurso and UPPER(m.nombremateria) = UPPER(?) ORDER BY m.idmateria");
             pstmt.setString(1, NameMateria);
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                retValue.add(new Materia(rs.getInt("idmateria"), rs.getInt("idcurso"), rs.getString("nombremateria")));
+                retValue.add(new Materia(rs.getInt("idmateria"), rs.getString("nombremateria"), rs.getInt("idcurso"), rs.getString("nombrecurso")));
             }
 
         } catch (Exception e) {
@@ -165,7 +165,7 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
     }
     
     @Override
-    public Collection<Materia> findByMateriaCurso(String NameCurso) throws Exception {
+    public Collection<Materia> findByMateriasCurso(String NameCurso) throws Exception {
         Collection<Materia> retValue = new ArrayList();
 
         Connection c = null;
@@ -174,13 +174,13 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
         
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT m.idmateria, m.idcurso, m.nombremateria FROM materia m, curso c WHERE m.idcurso = c.idcurso and c.nombrecurso ilike ?");
+            pstmt = c.prepareStatement("SELECT m.idmateria, m.idcurso, m.nombremateria,c.nombrecurso FROM materia m, curso c WHERE m.idcurso = c.idcurso and UPPER(c.nombrecurso) like UPPER(?) ORDER BY m.idmateria");
             pstmt.setString(1, NameCurso);
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                retValue.add(new Materia(rs.getInt("idmateria"), rs.getInt("idcurso"), rs.getString("nombremateria")));
+                retValue.add(new Materia(rs.getInt("idmateria"), rs.getString("nombremateria"), rs.getInt("idcurso"), rs.getString("nombrecurso")));
             }
 
         } catch (Exception e) {
@@ -350,12 +350,12 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
         
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select * from materia");
+            pstmt = c.prepareStatement("SELECT m.idmateria, m.idcurso, m.nombremateria,c.nombrecurso FROM materia m, curso c WHERE m.idcurso = c.idcurso");
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                retValue.add(new Materia(rs.getInt("idmateria"), rs.getInt("idcurso"), rs.getString("nombremateria")));
+                retValue.add(new Materia(rs.getInt("idmateria"), rs.getString("nombremateria"), rs.getInt("idcurso"), rs.getString("nombrecurso")));
             }
 
         } catch (Exception e) {
@@ -374,6 +374,30 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
             }
         }
         return retValue;
+    }
+
+    @Override
+    public boolean ContainsIdMateria(int idMateria) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Entity retValue = null;   
+            Connection c = null;
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("SELECT * FROM materia where idmateria = ?");
+            pstmt.setInt(1, idMateria);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return true;                
+            } 
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
     
 }

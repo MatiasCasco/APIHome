@@ -28,7 +28,7 @@ public interface MateriaRepository<Materia, Integer> extends Repository<Materia,
      * @return
      * @throws Exception
      */
-    public Collection<Materia> findByMateriaCurso(String NameCurso) throws Exception;
+    public Collection<Materia> findByMateriasCurso(String NameCurso) throws Exception;
     
     /**
      * Trae una materia por su idMateria
@@ -44,6 +44,15 @@ public interface MateriaRepository<Materia, Integer> extends Repository<Materia,
      * @throws Exception
      */
     public boolean ContainsIdCurso(int idCurso) throws Exception;
+    
+    /**
+     *
+     * @param idMateria
+     * @return
+     * @throws Exception
+     */
+    public boolean ContainsIdMateria(int idMateria) throws Exception;
+
 
     /**
      * Comprobar si ya existe el nombre de la materia en un curso

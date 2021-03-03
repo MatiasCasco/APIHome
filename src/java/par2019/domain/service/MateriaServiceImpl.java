@@ -65,7 +65,7 @@ public class MateriaServiceImpl extends BaseService<Materia, Integer> implements
         }
         //considerar id categoria y aggregar        //super.add(product);
         if(bandera == 0){
-            MateriaRepository.add(materia);
+            MateriaRepository.update(materia);
         }
     }
 
@@ -105,7 +105,7 @@ public class MateriaServiceImpl extends BaseService<Materia, Integer> implements
         if(NameCurso.equals(" ") || NameCurso.equals(null)){
             throw new Exception(String.format("El nombre del curso no puede ser ni null, ni una cadena vacio"));
         }
-        return MateriaRepository.findByMateriaCurso(NameCurso);
+        return MateriaRepository.findByMateriasCurso(NameCurso);
     }
 
     @Override
@@ -115,6 +115,15 @@ public class MateriaServiceImpl extends BaseService<Materia, Integer> implements
             throw new Exception(String.format("El nombre de la materia no puede ser ni null, ni una cadena vacio"));
         }
         return MateriaRepository.findByNameMateria(NameMateria);
+    }
+
+    @Override
+    public Materia findByIdMateria(int idMateria) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         if(!MateriaRepository.ContainsIdMateria(idMateria)){
+            throw new Exception(String.format("No se encontro el identificador %d de la materia", idMateria)); 
+        }
+        return MateriaRepository.getMateria(idMateria);
     }
  
 }
