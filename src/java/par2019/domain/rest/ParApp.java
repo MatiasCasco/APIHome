@@ -24,6 +24,8 @@ public class ParApp extends Application {
         singletons.add(new CuestionarioRestService());
         singletons.add(new PreguntaRestService());
         singletons.add(new RespuestasRestService());
+        singletons.add(new RetoRestService());
+        singletons.add(new ImageRestService());
     }
 
     @Override
