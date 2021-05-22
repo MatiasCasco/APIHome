@@ -12,7 +12,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author mauricio
+ * @author Matias
+ * @author Alexis
  */
 public class DBUtils {
 
