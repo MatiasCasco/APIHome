@@ -67,4 +67,12 @@ public interface CuestionarioService {
      */
     public Collection<Cuestionario> findByNameCursoAndMateria(String nameCurso, String nameMateria) throws Exception;
     
+    /**
+     *
+     * @param idAlumno
+     * @param idMateria
+     * @return
+     * @throws Exception
+     */
+    public Collection<Cuestionario> findByAlumnoAndMateria(int idAlumno, int idMateria) throws Exception;
 }

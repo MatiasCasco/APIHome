@@ -46,7 +46,7 @@ public interface CuestionarioRepository<Cuestionario, Integer> extends Repositor
      */
     public boolean ContainsNameMateria(String nameMateria) throws Exception;
     
-      /**
+     /**
      *
      * @param idCurso
      * @return
@@ -54,6 +54,14 @@ public interface CuestionarioRepository<Cuestionario, Integer> extends Repositor
      */
     public boolean ContainsCurso(int idCurso) throws Exception;
     
+    /**
+     *
+     * @param idAlumno
+     * @return
+     * @throws Exception
+     */
+    public boolean ContainsAlumno(int idAlumno) throws Exception;
+
     /**
      *
      * @param nameCurso
@@ -72,7 +80,6 @@ public interface CuestionarioRepository<Cuestionario, Integer> extends Repositor
     public Collection<Cuestionario> findByNameMateria(String nameMateria) throws Exception;
     
      /**
-     *
      * @param nameCurso
      * @return
      * @throws Exception
@@ -87,4 +94,13 @@ public interface CuestionarioRepository<Cuestionario, Integer> extends Repositor
      * @throws Exception
      */
     public Collection<Cuestionario> findByNameCursoAndMateria(String nameCurso, String nameMateria) throws Exception;
+    
+    /**
+     *
+     * @param idAlumno
+     * @param idMateria
+     * @return
+     * @throws Exception
+     */
+    public Collection<Cuestionario> findByAlumnoAndMateria(int idAlumno, int idMateria) throws Exception;
 }

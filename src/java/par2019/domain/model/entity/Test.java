@@ -17,10 +17,12 @@ public class Test {
     private int idquestion;
     private String question;
     private int assignedscore;
+    private int puntoobtenido;
     private String image;
     private List<String> options;
     private List<Integer> listidR;
-
+    private List<Integer> marcadas;
+    
     public Test(int id, List<Integer> answer, int idquestion, String question, int assignedscore, String image, List<String> options, List<Integer> listidR) {
         this.id = id;
         this.answer = answer;
@@ -32,6 +34,41 @@ public class Test {
         this.listidR = listidR;
     }
 
+    public Test(int id, List<Integer> answer, int idquestion, String question, int assignedscore, int puntoobtenido, String image, List<String> options, List<Integer> listidR, List<Integer> marcadas) {
+        this.id = id;
+        this.answer = answer;
+        this.idquestion = idquestion;
+        this.question = question;
+        this.assignedscore = assignedscore;
+        this.puntoobtenido = puntoobtenido;
+        this.image = image;
+        this.options = options;
+        this.listidR = listidR;
+        this.marcadas = marcadas;
+    }
+
+    public Test(int idquestion, int puntoobtenido, List<Integer> listidR) {
+        this.idquestion = idquestion;
+        this.puntoobtenido = puntoobtenido;
+        this.listidR = listidR;
+    }
+    
+    public int getPuntoobtenido() {
+        return puntoobtenido;
+    }
+
+    public void setPuntoobtenido(int puntoobtenido) {
+        this.puntoobtenido = puntoobtenido;
+    }
+
+    public List<Integer> getMarcadas() {
+        return marcadas;
+    }
+
+    public void setMarcadas(List<Integer> marcadas) {
+        this.marcadas = marcadas;
+    }
+    
     public int getIdquestion() {
         return idquestion;
     }
@@ -103,10 +140,12 @@ public class Test {
                 .append(", idquestion: ").append(idquestion)
                 .append(", question: ").append(question)
                 .append(", assignedscore: ").append(assignedscore)
+                .append(", puntosobtenidos: ").append(puntoobtenido)
                 .append(", image: ").append(image)
                 .append(", options: ").append(options)
                 .append(", listaidR: ").append(listidR)
                 .append(", answer_index: ").append(answer)
+                .append(", seleccionadas: ").append(marcadas)
                 .append("}").toString();                
     }
 }

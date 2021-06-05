@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -313,6 +314,157 @@ public class JdbcTestRepository implements TestRepository<Test, Integer> {
             Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    @Override
+    public Collection<Test> TestRecover(int Cuestionario, int Alumno) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Test> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+        List<String> listaP = new ArrayList();
+        List<Integer> listIndex = new ArrayList();
+        List<Integer> listPunto= new ArrayList();
+        List<Integer> listPuntoO = new ArrayList();
+        List<Integer> listIdR= new ArrayList();
+        List<Integer> listaE = new ArrayList();
+        List<String> listaR = new ArrayList();
+        List<Integer> selected = new ArrayList();// Contiene las respuestas de cada pregunta
+        final String link  = "http://192.168.0.10:8084/homeApi/rest/imageApi/image/";
+        String image = "";
+//        List list1 = new ArrayList();
+//        List<String> list2 = new ArrayList();
+//        list1.add(1);
+//        list1.add(2);
+//        list2.add("Mat");
+//        list2.add("Cas");
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select p.idpregunta, p.pregunta, p.puntoasignado, rt.puntorealizado \n" +
+            "from pregunta p, cuestionario c, rta_alumnos rt \n" +
+            "where c.idcuestionario = p.idcuestionario and p.idpregunta = rt.idpregunta \n" +
+            "and c.idcuestionario = ? and rt.idalumno = ? ORDER BY p.idpregunta");
+            
+            pstmt.setInt(1, Cuestionario);
+            pstmt.setInt(2, Alumno);
+            
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {  
+                //retValue.add(new Test());
+                listaP.add(rs.getString("pregunta"));
+                listIndex.add(rs.getInt("idpregunta"));
+                listPunto.add(rs.getInt("puntoasignado"));
+                listPuntoO.add(rs.getInt("puntorealizado"));
+            }
+            for(int i = 0; i < listaP.size(); i++) {
+                pstmt = c.prepareStatement("select r.idrta, r.rtas, r.evaluacion from respuesta r, pregunta p, cuestionario c"
+                        + " where r.idpregunta = p.idpregunta and p.idcuestionario = c.idcuestionario"
+                        + " and p.idpregunta = ? ");
+                pstmt.setInt(1, (int) listIndex.get(i));
+                image = link + listIndex.get(i);
+                rs = pstmt.executeQuery();
+                int x = 0;
+                while (rs.next()) {
+                    listIdR.add(rs.getInt("idrta"));
+                    listaR.add(rs.getString("rtas"));
+                    //listaE.add(rs.getInt("evaluacion"));
+                    if(rs.getInt("evaluacion")== 1) listaE.add(x);
+                    x++;
+                }
+                pstmt= c.prepareStatement("select rta.idrta as seleccionada from rta_marcadas rta, respuesta r\n" +
+                "where rta.idrta = r.idrta AND r.idpregunta = ? and rta.idalumno = ?");
+                pstmt.setInt(1, (int) listIndex.get(i));
+                pstmt.setInt(1, Alumno);
+                rs = pstmt.executeQuery();
+                while(rs.next()){
+                    selected.add(rs.getInt("seleccionada"));
+                }  
+                
+                retValue.add(new Test((i+1), listaE, listIndex.get(i) , listaP.get(i), listPunto.get(i), listPuntoO.get(i), image, listaR, listIdR, selected));
+                listaR = new ArrayList();
+                listaE = new ArrayList();    
+                listIdR = new ArrayList();
+                selected = new ArrayList();               
+            }
+//            retValue.add(new Test(1,list1,listaP.get(1),"imagen",list2));
+            return retValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
+
+    @Override
+    public Collection<Test> TestRecuperacion(int Cuestionario, int Alumno) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Test> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        List<Integer> listIndex = new ArrayList();
+        List<Integer> listPunto= new ArrayList();
+        List<Integer> listIdR= new ArrayList();
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select p.idpregunta, rta.puntorealizado from pregunta p, rta_alumnos rta, cuestionario c "
+                    + "where c.idcuestionario = p.idcuestionario and p.idpregunta = rta.idpregunta "
+                    + "and c.idcuestionario = ? and rta.idalumno = ? ORDER BY p.idpregunta ");    
+            pstmt.setInt(1, Cuestionario);
+            pstmt.setInt(2, Alumno);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {  
+                listIndex.add(rs.getInt("idpregunta"));
+                listPunto.add(rs.getInt("puntorealizado"));
+            }
+            for(int i = 0; i < listIndex.size(); i++) {
+                pstmt = c.prepareStatement("select rta.idrta from rta_marcadas rta, respuesta r, pregunta p "
+                        + "where rta.idrta = r.idrta and p.idpregunta = r.idpregunta "
+                        + "and p.idpregunta = ? and rta.idalumno = ?");
+                pstmt.setInt(1, listIndex.get(i));
+                pstmt.setInt(2, Alumno);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    listIdR.add(rs.getInt("idrta"));                 
+                }
+                retValue.add(new Test(listIndex.get(i), listPunto.get(i),listIdR)); 
+                listIdR = new ArrayList();
+            }
+//            retValue.add(new Test(1,list1,listaP.get(1),"imagen",list2));
+            return retValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
     }
     
 }

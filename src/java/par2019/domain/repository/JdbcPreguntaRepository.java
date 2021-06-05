@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import par2019.domain.model.entity.Entity;
 import par2019.domain.model.entity.Pregunta;
 import par2019.util.DBUtils;
-import static sun.security.krb5.Confounder.bytes;
+//import static sun.security.krb5.Confounder.bytes;
 
 /**
  *

@@ -104,5 +104,17 @@ public class CuestionarioServiceImpl extends BaseService<Cuestionario, Integer> 
         }
         return CuestionarioRepository.findByNameCursoAndMateria(nameCurso, nameMateria);
     }
+
+    @Override
+    public Collection<Cuestionario> findByAlumnoAndMateria(int idAlumno, int idMateria) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!CuestionarioRepository.ContainsAlumno(idAlumno)){
+            throw new Exception(String.format("No se encontro el identificador del alumno %d", idAlumno)); 
+        }
+        if(!CuestionarioRepository.ContainsMateria(idMateria)){
+            throw new Exception(String.format("No se encontro el nombre de la materia %d", idMateria)); 
+        }
+        return CuestionarioRepository.findByAlumnoAndMateria(idAlumno, idMateria);
+    }
     
 }

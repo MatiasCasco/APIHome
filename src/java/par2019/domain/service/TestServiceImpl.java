@@ -95,6 +95,30 @@ public class TestServiceImpl extends BaseService<Test, Integer> implements TestS
             TestRepository.addPuntosXCuestionarios(idAlumno, idCuestionario, puntoRealizado);
         }  
     }
+
+    @Override
+    public Collection<Test> TestRecover(int Cuestionario, int Alumno) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!TestRepository.containsIdCuestionario(Cuestionario)){
+            throw new Exception(String.format("No se encontro el identificador del cuestionario %d", Cuestionario)); 
+        }
+        if(!TestRepository.containsIdAlumno(Alumno)){
+            throw new Exception(String.format("No se encontro el identificador del alumno %d", Alumno)); 
+        }
+        return TestRepository.TestRecover(Cuestionario, Alumno);
+    }
+
+    @Override
+    public Collection<Test> TestRecuperacion(int Cuestionario, int Alumno) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!TestRepository.containsIdCuestionario(Cuestionario)){
+            throw new Exception(String.format("No se encontro el identificador del cuestionario %d", Cuestionario)); 
+        }
+        if(!TestRepository.containsIdAlumno(Alumno)){
+            throw new Exception(String.format("No se encontro el identificador del alumno %d", Alumno)); 
+        }
+        return TestRepository.TestRecuperacion(Cuestionario, Alumno);
+    }
     
     
 }

@@ -23,6 +23,24 @@ public interface TestRepository<Test, Integer> extends Repository<Test, Integer>
      * @throws Exception
      */
     public Collection<Test> Test(int Cuestionario) throws Exception;
+    
+    /**
+     *
+     * @param Cuestionario
+     * @param Alumno
+     * @return
+     * @throws Exception
+     */
+    public Collection<Test> TestRecover(int Cuestionario, int Alumno) throws Exception;
+    
+    /**
+     *
+     * @param Cuestionario
+     * @param Alumno
+     * @return
+     * @throws Exception
+     */
+    public Collection<Test> TestRecuperacion(int Cuestionario, int Alumno) throws Exception;
 
     /**
      *

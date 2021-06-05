@@ -127,7 +127,11 @@ public class JdbcRetoRepository implements RetoRepository<Reto, Integer>{
                                     contV++;
                                 }
                                 if(contV == (sizeOptions-1)){
-                                    listaOpciones.add("Todas las opciones son verdaderas");
+                                    if(materia.equalsIgnoreCase("guarani")){
+                                        listaOpciones.add("Enterovea oî porâ");
+                                    } else {
+                                        listaOpciones.add("Todas las opciones son verdaderas");
+                                    }   
                                     indexR = (listaOpciones.size()-1);
                                     contV++;
                                 }
@@ -146,7 +150,11 @@ public class JdbcRetoRepository implements RetoRepository<Reto, Integer>{
                             }
                         }
                         if(contF == (sizeOptions-1)&&(j==listaE.size()-1)&&contV==0){
-                            listaOpciones.add("Todas las opciones son falsas");
+                            if(materia.equalsIgnoreCase("guarani")){
+                                listaOpciones.add("Enterovea oî vai");
+                            }else{
+                                listaOpciones.add("Todas las opciones son falsas");
+                            }
                             indexR = (listaOpciones.size()-1);
                         }
                         if(listaOpciones.size() == (sizeOptions)){
@@ -174,9 +182,17 @@ public class JdbcRetoRepository implements RetoRepository<Reto, Integer>{
                         if(sizeOptions > 3 && listaOpciones.size() < sizeOptions && k == (listaE.size()-1)){
                             int numeroAleatorio = (int) Math.ceil(Math.random()*2);
                             if(numeroAleatorio == 1){
-                                listaOpciones.add("Todas las opciones son verdaderas");
+                                if(materia.equalsIgnoreCase("guarani")){
+                                        listaOpciones.add("Enterovea oî porâ");
+                                    } else {
+                                        listaOpciones.add("Todas las opciones son verdaderas");
+                                    }
                             }else{
-                                listaOpciones.add("Todas las opciones son falsas");
+                                if(materia.equalsIgnoreCase("guarani")){
+                                    listaOpciones.add("Enterovea oî vai");
+                                }else{
+                                    listaOpciones.add("Todas las opciones son falsas");
+                                }
                             }
                         }
                     }

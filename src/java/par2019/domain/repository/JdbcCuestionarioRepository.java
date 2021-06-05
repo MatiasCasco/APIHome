@@ -328,10 +328,17 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso\n" +
-                                        "from cuestionario c, curso cu, materia m \n" +
-                                        "where cu.idcurso = m.idcurso and m.idmateria = c.idmateria\n" +
-                                        "and UPPER(cu.nombrecurso) like UPPER(?) ORDER BY c.idcuestionario");
+            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria, m.nombremateria,\n" +
+            "c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso\n" +
+            "from cuestionario c, curso cu, materia m\n" +
+            "where cu.idcurso = m.idcurso and m.idmateria = c.idmateria\n" +
+            "and now() >= c.fechainicio and now() <= c.fechacierre\n" +
+            "and UPPER(cu.nombrecurso) like UPPER(?)\n" +
+            "ORDER BY c.idcuestionario");
+//            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso\n" +
+//                                        "from cuestionario c, curso cu, materia m \n" +
+//                                        "where cu.idcurso = m.idcurso and m.idmateria = c.idmateria\n" +
+//                                        "and UPPER(cu.nombrecurso) like UPPER(?) ORDER BY c.idcuestionario");
             pstmt.setString(1,nameCurso);
             
             rs = pstmt.executeQuery();
@@ -371,6 +378,14 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
 
         try {
             c = DBUtils.getConnection();
+//            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, \n" +
+//            "c.puntos, c.tiempolimite, m.idcurso, cu.nombrecurso\n" +
+//            "from cuestionario c, curso cu, materia m\n" +
+//            "where cu.idcurso = m.idcurso and m.idmateria = c.idmateria\n" +
+//            "and now() >= c.fechainicio and now() <= c.fechacierre\n" +
+//            "and UPPER(m.nombremateria) like UPPER(?)\n" +
+//            "and UPPER(cu.nombrecurso) like UPPER(?)"
+//            + " ORDER BY c.idcuestionario");
             pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso, cu.nombrecurso "
                     + "from cuestionario c, curso cu, materia m "
                     + "where cu.idcurso = m.idcurso and m.idmateria = c.idmateria "
@@ -443,6 +458,75 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
             }
         }
         return retValue;
+    }
+
+    @Override
+    public Collection<Cuestionario> findByAlumnoAndMateria(int idAlumno, int idMateria) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Cuestionario> retValue = new ArrayList();
+        DateFormat convertido1 = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat convertido2 = new SimpleDateFormat("HH-mm-ss");
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria, m.nombremateria, "
+                    + "c.fechacierre, c.fechainicio, pu.puntaje, c.tiempolimite, m.idcurso, cu.nombrecurso"
+                    + " from cuestionario c, curso cu, materia m, puntuaciones pu"
+                    + " where cu.idcurso = m.idcurso and m.idmateria = c.idmateria "
+                    + "and c.idcuestionario = pu.idcuestionario "
+                    + "and m.idmateria = ? and pu.id = ? ORDER BY c.idcuestionario ");
+            pstmt.setInt(1,idMateria);
+            pstmt.setInt(2,idAlumno);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {  
+                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntaje"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idCurso"), rs.getString("nombrecurso")));                 
+            }
+            
+            return retValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCuestionarioRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
+
+    @Override
+    public boolean ContainsAlumno(int idAlumno) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {  
+            Connection c = null;
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("SELECT * FROM alumno where id = ?");
+
+            pstmt.setInt(1, idAlumno);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return true;                
+            } 
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(JdbcCuestionarioRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
     
 }

@@ -31,7 +31,7 @@ import par2019.domain.service.TestServiceImpl;
 public class TestRestService {
     private final TestServiceImpl TestService = new TestServiceImpl(new JdbcTestRepository());
   
-   @GET
+    @GET
     @Path("/test/{Cuestionario}")
     @Produces("application/json")
     public ArrayList<Test> getTest(@PathParam("Cuestionario") int Cuestionario) {
@@ -40,6 +40,22 @@ public class TestRestService {
         //ArrayList<String> test = new ArrayList();
        try {
             test = (ArrayList<Test>) TestService.Test(Cuestionario);
+            //test =  (ArrayList<String>) TestService.Test(Cuestionario);
+       } catch (Exception ex) {
+           Logger.getLogger(RetoRestService.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        return test;
+    }
+    
+    @GET
+    @Path("/test/{Cuestionario}/alumno/{Alumno}")
+    @Produces("application/json")
+    public ArrayList<Test> getTestRecover(@PathParam("Cuestionario") int Cuestionario, @PathParam("Alumno") int Alumno) {
+    //public ArrayList<String> getTest(@PathParam("Cuestionario") int Cuestionario) {
+       ArrayList<Test> test = new ArrayList();
+        //ArrayList<String> test = new ArrayList();
+       try {
+            test = (ArrayList<Test>) TestService.TestRecuperacion(Cuestionario, Alumno);
             //test =  (ArrayList<String>) TestService.Test(Cuestionario);
        } catch (Exception ex) {
            Logger.getLogger(RetoRestService.class.getName()).log(Level.SEVERE, null, ex);

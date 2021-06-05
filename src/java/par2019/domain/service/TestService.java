@@ -44,4 +44,22 @@ public interface TestService {
      * @param puntoRealizado
      */
     public void addPuntosXCuestionarios(int idAlumno, int idCuestionario, int puntoRealizado) throws Exception;
+    
+    /**
+     *
+     * @param Cuestionario
+     * @param Alumno
+     * @return
+     * @throws Exception
+     */
+    public Collection<Test> TestRecover(int Cuestionario, int Alumno) throws Exception;
+    
+     /**
+     *
+     * @param Cuestionario
+     * @param Alumno
+     * @return
+     * @throws Exception
+     */
+    public Collection<Test> TestRecuperacion(int Cuestionario, int Alumno) throws Exception;
 }

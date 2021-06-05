@@ -77,6 +77,14 @@ public class CuestionarioRestService {
           ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByNameCursoAndMateria(cursoName, materiaName);
         return cuestionarios;
     }
+    
+    @GET
+    @Path("/alumno/{alumno}/materia/{materia}")
+    @Produces("application/json")
+    public ArrayList<Cuestionario> getBYAlumnoAndMateria(@PathParam("alumno") int alumno, @PathParam("materia") int materiaName) throws Exception {
+          ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByAlumnoAndMateria(alumno, materiaName);
+        return cuestionarios;
+    }
 //    
     @POST
     @Path("/cuestionario")
