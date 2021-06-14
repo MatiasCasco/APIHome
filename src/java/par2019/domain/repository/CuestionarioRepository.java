@@ -94,6 +94,15 @@ public interface CuestionarioRepository<Cuestionario, Integer> extends Repositor
      * @throws Exception
      */
     public Collection<Cuestionario> findByNameCursoAndMateria(String nameCurso, String nameMateria) throws Exception;
+
+    /**
+     *
+     * @param Curso
+     * @param Materia
+     * @return
+     * @throws Exception
+     */
+    public Collection<Cuestionario> findByNameCursoAndMateriaApp(String Curso, String Materia) throws Exception;
     
     /**
      *

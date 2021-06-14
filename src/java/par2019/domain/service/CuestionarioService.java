@@ -58,7 +58,7 @@ public interface CuestionarioService {
      */
     public Collection<Cuestionario> findByNameCurso(String nameCurso) throws Exception;
     
-      /**
+     /**
      *  Criteria representa encontrar los cuestionarios de un curso
      * @param nameCurso
      * @param nameMateria
@@ -66,6 +66,16 @@ public interface CuestionarioService {
      * @throws Exception
      */
     public Collection<Cuestionario> findByNameCursoAndMateria(String nameCurso, String nameMateria) throws Exception;
+    
+    /**
+     *  Criteria representa encontrar los cuestionarios de un curso
+     * @param Curso
+     * @param Materia
+     * @return
+     * @throws Exception
+     */
+    public Collection<Cuestionario> findByNameCursoAndMateriaApp(String Curso, String Materia) throws Exception;
+
     
     /**
      *
