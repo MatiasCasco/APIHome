@@ -38,7 +38,7 @@ public class JdbcRetoRepository implements RetoRepository<Reto, Integer>{
         List posiciones = new ArrayList();
         List<String> listaR = new ArrayList(); // Contiene las respuestas de cada pregunta
         List<String> listaOpciones = new ArrayList();
-        final String link  = "http://192.168.0.2:8084/homeApi/rest/imageApi/image/";
+        final String link  = "http://192.168.0.10:8084/homeApi/rest/imageApi/image/";
         String image = "";
         int sizeList = 0;
         int contTrue = 0;

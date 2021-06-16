@@ -399,5 +399,84 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
         }
         return false;
     }
+
+    @Override
+    public Collection<Materia> findByProfesor(int idProfesor) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Materia> retValue = new ArrayList();
+
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("SELECT m.idmateria, m.idcurso, m.nombremateria,c.nombrecurso FROM materia m join curso c on m.idcurso = c.idcurso where c.idProfesor = ? ORDER BY m.idcurso ASC");
+            pstmt.setInt(1, idProfesor);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                retValue.add(new Materia(rs.getInt("idmateria"), rs.getString("nombremateria"), rs.getInt("idcurso"), rs.getString("nombrecurso")));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
+
+    @Override
+    public Collection<Materia> findByCurso(int idCurso) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       Collection<Materia> retValue = new ArrayList();
+
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("SELECT m.idmateria, m.idcurso, m.nombremateria,c.nombrecurso FROM materia m join curso c on m.idcurso = c.idcurso WHERE m.idcurso = ? ORDER BY m.idmateria");
+            pstmt.setInt(1, idCurso);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                retValue.add(new Materia(rs.getInt("idmateria"), rs.getString("nombremateria"), rs.getInt("idcurso"), rs.getString("nombrecurso")));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    
+    
+    }
     
 }

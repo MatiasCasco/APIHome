@@ -58,4 +58,11 @@ public interface CursoService {
      * @throws Exception
      */
     public Curso findByIdCurso(int Id) throws Exception;
+     /**
+     * Buscar el curso por su nombre
+     * @param Name
+     * @return 
+     * @throws Exception
+     */
+    public Collection<Curso> findByIdProfesor(int idProfesor) throws Exception;
 }

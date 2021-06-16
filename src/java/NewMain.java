@@ -1,6 +1,13 @@
 
+import java.util.Collection;
+import par2019.domain.model.entity.Curso;
+import par2019.domain.model.entity.Materia;
 import par2019.domain.model.entity.User;
+import par2019.domain.repository.JdbcCursoRepository;
+import par2019.domain.repository.JdbcMateriaRepository;
 import par2019.domain.repository.JdbcUserRepository;
+import par2019.domain.service.CursoServiceImpl;
+import par2019.domain.service.MateriaServiceImpl;
 import par2019.domain.service.UserServiceImpl;
 
 /*
@@ -24,6 +31,16 @@ public class NewMain {
         usi.add(user);*/
 
 //        usi.delete(1);
+        /*CursoServiceImpl curs= new CursoServiceImpl(new JdbcCursoRepository());
+        Collection<Curso> c =curs.findByIdProfesor(1);
+        for (Curso i:c){
+            System.out.println(i.toString());
+        }*/
+        MateriaServiceImpl matS= new MateriaServiceImpl(new JdbcMateriaRepository());
+        Collection<Materia> materias=matS.findByProfesor(26);
+        for(Materia m: materias){
+            System.out.println(m.toString());
+        }
     }
     
 }

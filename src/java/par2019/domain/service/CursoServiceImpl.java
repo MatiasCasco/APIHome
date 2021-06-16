@@ -69,6 +69,8 @@ public class CursoServiceImpl extends BaseService<Curso, Integer> implements Cur
         }
         return CursoRepository.findByCriteria(Criteria);
     }
+    
+    
 
     @Override
     public Curso findByIdCurso(int Id) throws Exception {
@@ -105,6 +107,15 @@ public class CursoServiceImpl extends BaseService<Curso, Integer> implements Cur
         if(bandera == 0){
             CursoRepository.add(curso);
         }        
+    }
+    
+     @Override
+    public Collection<Curso> findByIdProfesor(int idProfesor) throws Exception {
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        if(!CursoRepository.containsNameCurso(Name)){
+//            throw new Exception(String.format("No se encontro el nombre del curso %s", Name));
+//        }
+        return CursoRepository.findByIdProfesor(idProfesor);
     }
     
 }

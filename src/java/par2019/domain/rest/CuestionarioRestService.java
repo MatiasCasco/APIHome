@@ -69,6 +69,7 @@ public class CuestionarioRestService {
         ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByNameCurso(curso);
         return cuestionarios;
     }
+   
     
     @GET
     @Path("/cursoName/{cursoName}/materiaName/{materiaName}")
@@ -77,8 +78,7 @@ public class CuestionarioRestService {
           ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByNameCursoAndMateria(cursoName, materiaName);
         return cuestionarios;
     }
-    
-    @GET
+     @GET
     @Path("/curso/{curso}/materia/{materia}")
     @Produces("application/json")
     public ArrayList<Cuestionario> getCuestionariosOfCursoAndMateriaApp(@PathParam("curso") String curso, @PathParam("materia") String materia) throws Exception {
@@ -115,4 +115,22 @@ public class CuestionarioRestService {
     public void removeCuestionario(@PathParam("id") int id) throws Exception {
         cuestionarioService.delete(id);
     }
+     ///agregado
+    @GET 
+    @Path("/cuestionariosForMateria/{idMateria}")
+    @Produces("application/json")
+    public ArrayList<Cuestionario> getCuestionariosForMateria(@PathParam("idMateria") int idMateria) throws Exception {
+        ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByIdMateria(idMateria);
+        return cuestionarios;
+    }
+     ///agregado
+    @GET 
+    @Path("/cuestionariosProfesor/{idProfesor}")
+    @Produces("application/json")
+    public ArrayList<Cuestionario> getCuestionariosProfe(@PathParam("idProfesor") int idProfesor) throws Exception {
+        ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByIdProfesor(idProfesor);
+        return cuestionarios;
+    }
+    
+    
 }

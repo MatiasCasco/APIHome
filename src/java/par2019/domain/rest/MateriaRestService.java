@@ -74,6 +74,30 @@ public class MateriaRestService {
         }
         return materias;
     }
+    @GET
+    @Path("/materiasProf/{idProfesor}")
+    @Produces("application/json")
+    public ArrayList<Materia> getMateriasProfesor(@PathParam("idProfesor") int idProfesor){
+       ArrayList<Materia> materias = new ArrayList();
+        try {
+            materias = (ArrayList<Materia>) materiaService.findByProfesor(idProfesor);
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return materias;
+    }
+     @GET
+    @Path("/materiasForCurso/{idCurso}")
+    @Produces("application/json")
+    public ArrayList<Materia> getMateriasForIdCurso(@PathParam("idCurso") int idCurso){
+       ArrayList<Materia> materias = new ArrayList();
+        try {
+            materias = (ArrayList<Materia>) materiaService.findByCurso(idCurso);
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return materias;
+    }
       
     @GET
     @Path("/materia/{idMateria}")

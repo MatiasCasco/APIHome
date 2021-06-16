@@ -54,6 +54,18 @@ public class CursoRestService {
         }
         return null;
     }
+    @GET
+    @Path("/cursosIdprof/{idProfesor}")
+    @Produces("application/json")
+    public ArrayList<Curso> CursosfindIdProf(@PathParam("idProfesor") int idProfesor) {
+        try {
+            ArrayList<Curso> cursos = (ArrayList<Curso>) cursoService.findByIdProfesor(idProfesor); 
+            return cursos;
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     
     @GET
     @Path("/curso/{idCurso}")

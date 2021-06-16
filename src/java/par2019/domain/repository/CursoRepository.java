@@ -19,6 +19,7 @@ public interface CursoRepository<Curso, Integer> extends Repository<Curso, Integ
      * @param Criteria
      * @return
      * @throws Exception
+     * 
      */
     public Collection<Curso> findByCriteria(String Criteria) throws Exception;
  
@@ -58,5 +59,13 @@ public interface CursoRepository<Curso, Integer> extends Repository<Curso, Integ
      * @return
      */
     public boolean containsNameCurso(String Curso);
+        /**
+     * Buscar el curso por su nombre
+     * @param idProfesor
+     * @return 
+     * @throws Exception
+     */
+    public Collection<Curso> findByIdProfesor(int idProfesor) throws Exception;
+    
     
 }

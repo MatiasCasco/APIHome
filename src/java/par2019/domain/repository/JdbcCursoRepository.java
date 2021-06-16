@@ -36,7 +36,7 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
             c = DBUtils.getConnection();
             pstmt = c.prepareStatement("select c.idcurso, c.idprofesor, p.nombre as nombreprofesor, c.nombrecurso, c.claveprofesor,"
                     + " c.clavealumno from curso c, persona p\n" +
-            "where c.idprofesor = p.id and UPPER(p.nombre) like UPPER(?) and p.rol = 1");
+            "where c.idprofesor = p.id and UPPER(p.nombre) like UPPER(?) and p.rol = 2");
             pstmt.setString(1, Criteria);
             
             rs = pstmt.executeQuery();
@@ -342,6 +342,50 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
             }
         }
         return retValue;
+    }
+
+    @Override
+   public Collection<Curso> findByIdProfesor(int idProfesor) throws Exception {
+      Collection<Curso> retValue = new ArrayList();
+
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            c = DBUtils.getConnection();
+           /* pstmt = c.prepareStatement("select c.idcurso, c.idprofesor, p.nombre as nombreprofesor, c.nombrecurso, c.claveprofesor,"
+                    + " c.clavealumno from curso c, persona p\n" +
+            "where c.idprofesor = p.id and UPPER(p.nombre) like UPPER(?) and p.rol = 1");*/
+            pstmt = c.prepareStatement("SELECT c.idcurso,c.idProfesor,p.nombre as nombreProfesor,c.nombreCurso,c.claveProfesor,c.claveAlumno FROM persona p join curso c on c.idProfesor=p.id WHERE  p.rol=2 and p.id=? and idProfesor ORDER BY c.idcurso ASC" );
+            pstmt.setInt(1,idProfesor );
+            
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {  
+                retValue.add(new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"),rs.getInt("idprofesor"), rs.getString("nombreprofesor"),rs.getString("claveprofesor"), rs.getString("clavealumno")));
+            }
+            
+            return retValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    
+    
+    //
     }
     
 }

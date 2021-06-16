@@ -94,8 +94,8 @@ public interface CuestionarioRepository<Cuestionario, Integer> extends Repositor
      * @throws Exception
      */
     public Collection<Cuestionario> findByNameCursoAndMateria(String nameCurso, String nameMateria) throws Exception;
-
-    /**
+    
+     /**
      *
      * @param Curso
      * @param Materia
@@ -112,4 +112,17 @@ public interface CuestionarioRepository<Cuestionario, Integer> extends Repositor
      * @throws Exception
      */
     public Collection<Cuestionario> findByAlumnoAndMateria(int idAlumno, int idMateria) throws Exception;
+    
+       /**
+     * @param idMateria
+     * @return
+     * @throws Exception
+     */
+    public Collection<Cuestionario> findByIdMateria(int idMateria) throws Exception;
+       /**
+     * @param idProfesor
+     * @return
+     * @throws Exception
+     */
+    public Collection<Cuestionario> findByIdProfesor(int idProfesor) throws Exception;
 }

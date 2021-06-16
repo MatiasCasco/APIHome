@@ -50,6 +50,13 @@ public interface MateriaService {
      * @throws Exception
      */
     public Collection<Materia> findByMateriasCurso(String NameCurso) throws Exception;
+    /**
+     * Encontrar todas las materias de un curso por el nombre
+     * @param NameCurso
+     * @return
+     * @throws Exception
+     */
+    public Collection<Materia> findByCurso(int idCurso) throws Exception;
     
     /**
      *
@@ -66,6 +73,18 @@ public interface MateriaService {
      * @throws Exception
      */
     public Materia findByIdMateria(int idMateria) throws Exception;
+    
+    
+       /**
+     *
+     * @param NameMateria
+     * @return
+     * @throws Exception
+     */
+    public Collection<Materia> findByProfesor(int idProfesor) throws Exception;
+    
+    
+    
     
     
 }
