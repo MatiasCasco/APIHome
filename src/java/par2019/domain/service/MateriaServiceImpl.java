@@ -145,5 +145,23 @@ public class MateriaServiceImpl extends BaseService<Materia, Integer> implements
         return MateriaRepository.findByCurso(idCurso);
     
     }
+
+    @Override
+    public Collection<Materia> findByMateriasCursoDisponible(String NameCurso) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(NameCurso.equals(" ") || NameCurso.equals(null)){
+            throw new Exception(String.format("El nombre del curso no puede ser ni null, ni una cadena vacio"));
+        }
+        return MateriaRepository.findByMateriasCursoDisponible(NameCurso);
+    }
+
+    @Override
+    public Collection<Materia> findByMateriasCursoTestDisponible(String NameCurso) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(NameCurso.equals(" ") || NameCurso.equals(null)){
+            throw new Exception(String.format("El nombre del curso no puede ser ni null, ni una cadena vacio"));
+        }
+        return MateriaRepository.findByMateriasCursoTestDisponible(NameCurso);
+    }
  
 }

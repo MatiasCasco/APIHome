@@ -74,6 +74,33 @@ public class MateriaRestService {
         }
         return materias;
     }
+    
+     @GET
+    @Path("/retos/{NameCurso}")
+    @Produces("application/json")
+    public ArrayList<Materia> getMateriasReto(@PathParam("NameCurso") String NameCurso){
+       ArrayList<Materia> materias = new ArrayList();
+        try {
+            materias = (ArrayList<Materia>) materiaService.findByMateriasCursoDisponible(NameCurso);
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return materias;
+    }
+    
+     @GET
+    @Path("/test/{NameCurso}")
+    @Produces("application/json")
+    public ArrayList<Materia> getMateriasTest(@PathParam("NameCurso") String NameCurso){
+       ArrayList<Materia> materias = new ArrayList();
+        try {
+            materias = (ArrayList<Materia>) materiaService.findByMateriasCursoTestDisponible(NameCurso);
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return materias;
+    }
+    
     @GET
     @Path("/materiasProf/{idProfesor}")
     @Produces("application/json")

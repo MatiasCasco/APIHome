@@ -478,5 +478,71 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
     
     
     }
+
+    @Override
+    public Collection<Materia> findByMateriasCursoDisponible(String NameCurso) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Materia> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;      
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select * from (SELECT m.idmateria, m.idcurso, m.nombremateria,c.nombrecurso, (select count(cue.idcuestionario) from cuestionario cue, curso cur where cue.idmateria = m.idmateria and UPPER(cur.nombreCurso) like UPPER(c.nombreCurso))as cant FROM materia m, curso c WHERE m.idcurso = c.idcurso and UPPER(c.nombrecurso) like UPPER(?) ORDER BY m.idmateria) as vista where cant >0 ");
+            pstmt.setString(1, NameCurso);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                retValue.add(new Materia(rs.getInt("idmateria"), rs.getString("nombremateria"), rs.getInt("idcurso"), rs.getString("nombrecurso")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
+
+    @Override
+    public Collection<Materia> findByMateriasCursoTestDisponible(String NameCurso) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Materia> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;      
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select * from (SELECT DISTINCT m.idmateria, m.idcurso, m.nombremateria,c.nombrecurso, (select count(cue.idcuestionario) from cuestionario cue, curso cur where cue.idmateria = m.idmateria and UPPER(cur.nombreCurso) like UPPER(c.nombreCurso))as cant FROM materia m, curso c, cuestionario cu WHERE m.idcurso = c.idcurso and cu.idmateria = m.idmateria and now() >= cu.fechainicio and now() <= cu.fechacierre and UPPER(c.nombrecurso) like UPPER(?) ORDER BY m.idmateria) as vista where cant >0 ");
+            pstmt.setString(1, NameCurso);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                retValue.add(new Materia(rs.getInt("idmateria"), rs.getString("nombremateria"), rs.getInt("idcurso"), rs.getString("nombrecurso")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
     
 }

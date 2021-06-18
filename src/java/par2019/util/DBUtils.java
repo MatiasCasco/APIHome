@@ -26,7 +26,7 @@ public class DBUtils {
         }
 //        Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/home", "postgres", "1996");
 //        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/homeresident", "root", "");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/home", "root", "");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/homer", "root", "");
         return conn;
     }
 
