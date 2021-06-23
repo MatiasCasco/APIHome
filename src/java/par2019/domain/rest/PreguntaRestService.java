@@ -19,6 +19,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import par2019.domain.model.entity.EstadisticaPregunta;
 import par2019.domain.model.entity.Pregunta;
 import par2019.domain.repository.JdbcPreguntaRepository;
 import par2019.domain.service.PreguntaServiceImpl;
@@ -55,6 +56,19 @@ private final PreguntaServiceImpl preguntaService = new PreguntaServiceImpl(new 
        ArrayList<Pregunta> preguntas = new ArrayList();
         try {
             preguntas = (ArrayList<Pregunta>) preguntaService.findByIdCuestionario(id);
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return preguntas;
+    }
+    
+    @GET
+    @Path("/estadisticas/{idCuestionario}")
+    @Produces("application/json")
+    public ArrayList<EstadisticaPregunta> getEstadisticas(@PathParam("idCuestionario") int idCuestionario){
+       ArrayList<EstadisticaPregunta> preguntas = new ArrayList();
+        try {
+            preguntas = (ArrayList<EstadisticaPregunta>) preguntaService.getEstadisticas(idCuestionario);
         } catch (Exception ex) {
             Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
         }

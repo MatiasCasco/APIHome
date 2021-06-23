@@ -20,6 +20,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import par2019.domain.model.entity.Curso;
+import par2019.domain.model.entity.Grafica;
 import par2019.domain.model.entity.Materia;
 import par2019.domain.repository.JdbcMateriaRepository;
 import par2019.domain.service.MateriaServiceImpl;
@@ -75,7 +76,20 @@ public class MateriaRestService {
         return materias;
     }
     
-     @GET
+    @GET
+    @Path("/grafica/{NameCurso}")
+    @Produces("application/json")
+    public ArrayList<Grafica> getGraficaContenidoM(@PathParam("NameCurso") String NameCurso){
+       ArrayList<Grafica> materias = new ArrayList();
+        try {
+            materias = (ArrayList<Grafica>) materiaService.contenidoMaterias(NameCurso);
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return materias;
+    }
+ 
+    @GET
     @Path("/retos/{NameCurso}")
     @Produces("application/json")
     public ArrayList<Materia> getMateriasReto(@PathParam("NameCurso") String NameCurso){

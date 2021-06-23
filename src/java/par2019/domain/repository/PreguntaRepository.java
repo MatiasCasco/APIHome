@@ -6,6 +6,7 @@
 package par2019.domain.repository;
 
 import java.util.Collection;
+import par2019.domain.model.entity.EstadisticaPregunta;
 
 /**
  *
@@ -50,4 +51,11 @@ public interface PreguntaRepository<Pregunta, Integer> extends Repository<Pregun
      */
     public Collection<Pregunta> findByIdCuestionario(int idCuestionario) throws Exception;
     
+    /**
+     * 
+     * @param idCuestionario
+     * @return
+     * @throws Exception
+     */
+    public Collection<EstadisticaPregunta> getEstadisticas(int idCuestionario) throws Exception;
 }

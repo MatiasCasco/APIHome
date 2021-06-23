@@ -117,5 +117,28 @@ public class CursoServiceImpl extends BaseService<Curso, Integer> implements Cur
 //        }
         return CursoRepository.findByIdProfesor(idProfesor);
     }
+
+    @Override
+    public int cantAlumnos(String curso) throws Exception {
+        int bandera = 0;
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (CursoRepository.containsNameCurso(curso) == true){
+            bandera = 1;
+            throw new Exception(String.format("No existe el nombre del curso %s ", curso));
+        }
+        if(bandera == 0){
+            return CursoRepository.cantAlumnos(curso);
+        }  
+        return 0;
+    }
+
+    @Override
+    public Collection<par2019.domain.model.entity.resumenSemestre> resumenSemestre(int idCurso, int mesApertura, int mesCierre) throws Exception {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!CursoRepository.containsId(idCurso)){
+            throw new Exception(String.format("No se encontro el curso con el id %s", idCurso)); 
+        }
+        return CursoRepository.resumenSemestre(idCurso, mesApertura, mesCierre);
+    }
     
 }

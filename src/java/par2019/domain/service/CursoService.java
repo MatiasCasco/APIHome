@@ -8,6 +8,7 @@ package par2019.domain.service;
 import java.util.Collection;
 import par2019.domain.model.entity.Curso;
 import par2019.domain.model.entity.Entity;
+import par2019.domain.model.entity.resumenSemestre;
 
 /**
  *
@@ -65,4 +66,20 @@ public interface CursoService {
      * @throws Exception
      */
     public Collection<Curso> findByIdProfesor(int idProfesor) throws Exception;
+    /**
+     *
+     * @param curso
+     * @return 
+     * @throws Exception
+     */
+    public int cantAlumnos(String curso) throws Exception;
+    
+    /**
+     * @param idCurso
+     * @param mesApertura
+     * @param mesCierre
+     * @return 
+     * @throws Exception
+     */
+    public Collection<resumenSemestre> resumenSemestre(int idCurso, int mesApertura, int mesCierre) throws Exception;
 }

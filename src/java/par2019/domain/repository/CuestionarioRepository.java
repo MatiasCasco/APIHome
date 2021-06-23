@@ -6,6 +6,7 @@
 package par2019.domain.repository;
 
 import java.util.Collection;
+import par2019.domain.model.entity.Grafica;
 
 /**
  *
@@ -119,10 +120,26 @@ public interface CuestionarioRepository<Cuestionario, Integer> extends Repositor
      * @throws Exception
      */
     public Collection<Cuestionario> findByIdMateria(int idMateria) throws Exception;
-       /**
+     
+    /**
      * @param idProfesor
      * @return
      * @throws Exception
      */
     public Collection<Cuestionario> findByIdProfesor(int idProfesor) throws Exception;
+    
+     /**
+     * @param idCuestionario
+     * @return
+     * @throws Exception
+     */
+    public Collection<Grafica> resumenEvaluacion(int idCuestionario) throws Exception;
+    
+    /**
+     *
+     * @param idCuestionario
+     * @return
+     * @throws Exception
+     */
+    public Collection<Grafica> cuestionarioAlumnos(int idCuestionario) throws Exception;
 }

@@ -7,6 +7,7 @@ package par2019.domain.service;
 
 import java.util.Collection;
 import par2019.domain.model.entity.Cuestionario;
+import par2019.domain.model.entity.Grafica;
 
 /**
  *
@@ -58,7 +59,6 @@ public interface CuestionarioService {
      */
     public Collection<Cuestionario> findByNameCurso(String nameCurso) throws Exception;
     
-   
       /**
      *  Criteria representa encontrar los cuestionarios de un curso
      * @param nameCurso
@@ -76,8 +76,7 @@ public interface CuestionarioService {
      * @throws Exception
      */
     public Collection<Cuestionario> findByNameCursoAndMateriaApp(String Curso, String Materia) throws Exception;
-
-   
+  
     /**
      *
      * @param idAlumno
@@ -86,18 +85,35 @@ public interface CuestionarioService {
      * @throws Exception
      */
     public Collection<Cuestionario> findByAlumnoAndMateria(int idAlumno, int idMateria) throws Exception;
-     /**
+    
+    /**
      *  Criteria representa encontrar los cuestionarios de un curso
      * @param idMateria
      * @return
      * @throws Exception
      */
     public Collection<Cuestionario> findByIdMateria(int idMateria) throws Exception;
-     /**
+    
+    /**
      *  Criteria representa encontrar los cuestionarios de un curso
      * @param idProfesor
      * @return
      * @throws Exception
      */
     public Collection<Cuestionario> findByIdProfesor(int idProfesor) throws Exception;
+    
+     /**
+     * @param idCuestionario
+     * @return
+     * @throws Exception
+     */
+    public Collection<Grafica> resumenEvaluacion(int idCuestionario) throws Exception;
+    
+    /**
+     *
+     * @param idCuestionario
+     * @return
+     * @throws Exception
+     */
+    public Collection<Grafica> cuestionarioAlumnos(int idCuestionario) throws Exception;
 }

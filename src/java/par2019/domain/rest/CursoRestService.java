@@ -21,6 +21,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import par2019.domain.model.entity.Curso;
 import par2019.domain.model.entity.Entity;
+import par2019.domain.model.entity.resumenSemestre;
 import par2019.domain.repository.JdbcCursoRepository;
 import par2019.domain.service.CursoServiceImpl;
 
@@ -81,6 +82,19 @@ public class CursoRestService {
     }
     
     @GET
+    @Path("/resumen/{idCurso}/inicio/{inicio}/cierre/{cierre}")
+    @Produces("application/json")
+    public ArrayList<resumenSemestre> getResumenCurso(@PathParam("idCurso") int idCurso, @PathParam("inicio") int inicio, @PathParam("cierre") int cierre){
+       try {
+            ArrayList<resumenSemestre> resumen = (ArrayList<resumenSemestre>) cursoService.resumenSemestre(idCurso, inicio, cierre); 
+            return resumen;
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    @GET
     @Path("/cursoName/{NameCurso}")
     @Produces("application/json")
     public ArrayList<Curso> getCursoName(@PathParam("NameCurso") String NameCurso){
@@ -91,6 +105,20 @@ public class CursoRestService {
             Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    @GET
+    @Path("/alumnos/{NameCurso}")
+    @Produces("application/json")
+    public int getAlumnosCurso(@PathParam("NameCurso") String NameCurso){
+        int alumnos = 0;
+        try {
+            alumnos = cursoService.cantAlumnos(NameCurso); 
+            return alumnos;
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return alumnos;
     }
     
     @POST

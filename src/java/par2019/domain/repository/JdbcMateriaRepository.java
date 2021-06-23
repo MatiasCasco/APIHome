@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import par2019.domain.model.entity.Entity;
+import par2019.domain.model.entity.Grafica;
 import par2019.domain.model.entity.Materia;
 import par2019.util.DBUtils;
 
@@ -527,6 +528,43 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
             while (rs.next()) {
                 retValue.add(new Materia(rs.getInt("idmateria"), rs.getString("nombremateria"), rs.getInt("idcurso"), rs.getString("nombrecurso")));
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
+
+    @Override
+    public Collection<Grafica> contenidoMaterias(String NameCurso) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Grafica> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("SELECT DISTINCT cu.idcurso, m.nombremateria, (SELECT count(puntos) from cuestionario where idmateria = m.idmateria) as suma FROM curso cu, materia m, cuestionario c WHERE cu.idcurso = m.idcurso AND m.idmateria = c.idmateria AND UPPER(cu.nombrecurso) LIKE UPPER(?)");
+            pstmt.setString(1, NameCurso);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                retValue.add(new Grafica(rs.getString("nombremateria"), rs.getInt("suma"), rs.getString("nombremateria")));
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import par2019.domain.model.entity.Curso;
 import par2019.domain.model.entity.Entity;
+import par2019.domain.model.entity.resumenSemestre;
 import par2019.util.DBUtils;
 
 /**
@@ -346,7 +347,7 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
 
     @Override
    public Collection<Curso> findByIdProfesor(int idProfesor) throws Exception {
-      Collection<Curso> retValue = new ArrayList();
+        Collection<Curso> retValue = new ArrayList();
 
         Connection c = null;
         PreparedStatement pstmt = null;
@@ -386,6 +387,87 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
     
     
     //
+    }
+
+    @Override
+    public int cantAlumnos(String curso) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int cantAlumnos = 0;
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select count(a.id) as cant from alumno a, curso cu "
+                    + "where a.idCurso = cu.idcurso "
+                    + "and UPPER(cu.nombreCurso) like UPPER(?)");
+            pstmt.setString(1, curso);            
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {  
+                cantAlumnos = rs.getInt("cant");
+            }    
+            return cantAlumnos;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return cantAlumnos;
+    }
+
+    @Override
+    public Collection<resumenSemestre> resumenSemestre(int idCurso, int mesApertura, int mesCierre) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<resumenSemestre> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select ma.nombremateria, p.idcuestionario as test, "
+            + "round(avg(p.puntaje),2) as promedio, cue.fechainicio, MONTH(cue.fechacierre) as mes "
+            + "from puntuaciones p, cuestionario cue, curso cu, materia ma "
+            + "where cu.idcurso = ma.idcurso and ma.idmateria = cue.idmateria "
+            + "and cue.idcuestionario = p.idcuestionario and cu.idcurso = ? "
+            + "and MONTH(cue.fechacierre) >= ? AND MONTH(cue.fechacierre) <= ? and YEAR(cue.fechacierre) = YEAR(NOW())"
+            + "GROUP by ma.nombremateria, MONTH(cue.fechacierre) ORDER BY ma.nombremateria");
+            pstmt.setInt(1, idCurso );
+            pstmt.setInt(2, mesApertura);
+            pstmt.setInt(3, mesCierre);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {  
+                retValue.add(new resumenSemestre(rs.getString("nombremateria"), rs.getInt("test"), rs.getInt("promedio"), rs.getInt("mes")));
+            }
+            return retValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    
+    
     }
     
 }

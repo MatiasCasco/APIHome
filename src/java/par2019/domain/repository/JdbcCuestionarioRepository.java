@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import par2019.domain.model.entity.Cuestionario;
 import par2019.domain.model.entity.Entity;
+import par2019.domain.model.entity.Grafica;
 import par2019.domain.model.entity.Materia;
 import par2019.util.DBUtils;
 
@@ -657,5 +658,88 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
             }
         }
         return retValue;}
+
+    @Override
+    public Collection<Grafica> resumenEvaluacion(int idCuestionario) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Grafica> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select count(round(100*p.puntaje/(select sum(puntoasignado) from pregunta where idcuestionario = ?),2)) as mayor, (select count(pe.id) from persona pe, alumno a, curso cu, materia m, cuestionario cue where pe.id = a.id and a.idCurso = cu.idcurso and cu.idcurso = m.idcurso and m.idmateria = cue.idmateria and cue.idcuestionario = ?) as alumnos from cuestionario c, puntuaciones p where c.idcuestionario = p.idcuestionario and p.idcuestionario = ? and round(100*p.puntaje/(select sum(puntoasignado) from pregunta where idcuestionario = ?),2) >= 70 ");
+            pstmt.setInt(1, idCuestionario);
+            pstmt.setInt(2, idCuestionario);
+            pstmt.setInt(3, idCuestionario);
+            pstmt.setInt(4, idCuestionario);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {              
+                retValue.add(new Grafica("Porcentaje >= a 70%", rs.getInt("mayor"), "Catidad mayor e igual a 70%"));
+                retValue.add(new Grafica("Porcentaje < a 70%", (rs.getInt("alumnos")-rs.getInt("mayor")), "Catidad menor a 70%"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
+
+    @Override
+    public Collection<Grafica> cuestionarioAlumnos(int idCuestionario) throws Exception {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Grafica> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("SELECT count(p.id) as presentes,"
+            + " (select count(a.id) from alumno a, materia m, cuestionario c "
+            + "where a.idCurso = m.idcurso and m.idmateria = c.idmateria "
+            + "and c.idcuestionario = p.idcuestionario) as total "
+            + "from puntuaciones p, cuestionario c where p.idcuestionario = c.idcuestionario "
+            + "and p.idcuestionario = ? ");
+            pstmt.setInt(1, idCuestionario);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                retValue.add(new Grafica("Se presentaron", rs.getInt("presentes"), "Se presentaron"));
+                retValue.add(new Grafica("No se presentaron", rs.getInt("total")- rs.getInt("presentes"), "No se presentaron"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
     
 }

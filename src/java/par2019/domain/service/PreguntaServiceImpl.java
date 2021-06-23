@@ -6,6 +6,7 @@
 package par2019.domain.service;
 
 import java.util.Collection;
+import par2019.domain.model.entity.EstadisticaPregunta;
 import par2019.domain.model.entity.Pregunta;
 import par2019.domain.repository.PreguntaRepository;
 
@@ -96,6 +97,15 @@ public class PreguntaServiceImpl extends BaseService<Pregunta, Integer> implemen
             throw new Exception(String.format("No existe el identificador de la Pregunta ", idPregunta));
         }
         return PreguntaRepository.getPregunta(idPregunta);
+    }
+
+    @Override
+    public Collection<EstadisticaPregunta> getEstadisticas(int idCuestionario) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (PreguntaRepository.ContainsIdCuestionario(idCuestionario) == false){
+            throw new Exception(String.format("No existe el identificador del cuestionario ", idCuestionario));
+        }
+        return PreguntaRepository.getEstadisticas(idCuestionario);
     }
      
 }

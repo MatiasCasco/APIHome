@@ -6,6 +6,7 @@
 package par2019.domain.service;
 
 import java.util.Collection;
+import par2019.domain.model.entity.EstadisticaPregunta;
 import par2019.domain.model.entity.Pregunta;
 
 /**
@@ -57,4 +58,12 @@ public interface PreguntaService {
      * @throws Exception
      */
     public Pregunta getPregunta(int idPregunta) throws Exception;
+    
+    /**
+     * 
+     * @param idCuestionario
+     * @return
+     * @throws Exception
+     */
+    public Collection<EstadisticaPregunta> getEstadisticas(int idCuestionario) throws Exception;
 }

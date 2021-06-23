@@ -20,6 +20,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import par2019.domain.model.entity.Cuestionario;
+import par2019.domain.model.entity.Grafica;
 import par2019.domain.repository.JdbcCuestionarioRepository;
 import par2019.domain.service.CuestionarioServiceImpl;
 
@@ -61,6 +62,13 @@ public class CuestionarioRestService {
         }
         return null;
     }
+    @GET
+    @Path("/alumnos/{id}")
+    @Produces("application/json")
+    public ArrayList<Grafica>  getCuestionarioAlumnos(@PathParam("id") int id) throws Exception {
+        ArrayList<Grafica> graficas = (ArrayList<Grafica>) cuestionarioService.cuestionarioAlumnos(id);
+        return graficas;
+    }
     
     @GET 
     @Path("/cuestionariosOFCurso/{curso}")
@@ -90,8 +98,16 @@ public class CuestionarioRestService {
     @Path("/alumno/{alumno}/materia/{materia}")
     @Produces("application/json")
     public ArrayList<Cuestionario> getBYAlumnoAndMateria(@PathParam("alumno") int alumno, @PathParam("materia") int materiaName) throws Exception {
-          ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByAlumnoAndMateria(alumno, materiaName);
+        ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByAlumnoAndMateria(alumno, materiaName);
         return cuestionarios;
+    }
+    
+    @GET
+    @Path("/resumen/{idCuestionario}")
+    @Produces("application/json")
+    public ArrayList<Grafica> getResumenTest(@PathParam("idCuestionario") int idCuestionario) throws Exception {
+        ArrayList<Grafica> resumen = (ArrayList<Grafica>) cuestionarioService.resumenEvaluacion(idCuestionario);
+        return resumen;
     }
 //    
     @POST

@@ -6,6 +6,7 @@
 package par2019.domain.service;
 
 import java.util.Collection;
+import par2019.domain.model.entity.Grafica;
 import par2019.domain.model.entity.Materia;
 import par2019.domain.repository.MateriaRepository;
 import par2019.domain.repository.Repository;
@@ -163,5 +164,14 @@ public class MateriaServiceImpl extends BaseService<Materia, Integer> implements
         }
         return MateriaRepository.findByMateriasCursoTestDisponible(NameCurso);
     }
- 
+
+    @Override
+    public Collection<Grafica> contenidoMaterias(String NameCurso) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(NameCurso.equals(" ") || NameCurso.equals(null)){
+            throw new Exception(String.format("El nombre del curso no puede ser ni null, ni una cadena vacio"));
+        }
+        return MateriaRepository.contenidoMaterias(NameCurso);
+    }
+
 }

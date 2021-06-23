@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import par2019.domain.model.entity.Entity;
+import par2019.domain.model.entity.EstadisticaPregunta;
 import par2019.domain.model.entity.Pregunta;
 import par2019.util.DBUtils;
 //import static sun.security.krb5.Confounder.bytes;
@@ -314,6 +315,51 @@ public class JdbcPreguntaRepository implements PreguntaRepository<Pregunta, Inte
         return retValue;
             } catch (SQLException ex) {
                 Logger.getLogger(JdbcPreguntaRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
+
+    @Override
+    public Collection<EstadisticaPregunta> getEstadisticas(int idCuestionario) throws Exception {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<EstadisticaPregunta> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;       
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select p.idpregunta, p.pregunta, "
+            + "round(avg(rta.puntorealizado),2) as promedio,"
+            + " ((select count(*) from rta_alumnos where puntorealizado = p.puntoasignado "
+            + "and idpregunta = p.idpregunta)*100/cant) as correcto,"
+            + " (100-(select count(*) from rta_alumnos where puntorealizado = p.puntoasignado "
+            + "and idpregunta = p.idpregunta)*100/cant) as incorrecto "
+            + "from rta_alumnos rta, pregunta p, cuestionario c, "
+            + "(SELECT idcuestionario,count(*) as cant from puntuaciones"
+            + " where idcuestionario = ?) as t WHERE c.idcuestionario = p.idcuestionario "
+            + "and c.idcuestionario = t.idcuestionario and rta.idpregunta = p.idpregunta"
+            + " and c.idcuestionario = ? GROUP BY p.idpregunta ORDER by p.idpregunta ");
+            pstmt.setInt(1, idCuestionario);
+            pstmt.setInt(2, idCuestionario);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {              
+                retValue.add(new EstadisticaPregunta(rs.getInt("idpregunta"),rs.getString("pregunta"),rs.getInt("promedio"),rs.getInt("correcto"),rs.getInt("incorrecto")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return retValue;

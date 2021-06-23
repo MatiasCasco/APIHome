@@ -6,6 +6,7 @@
 package par2019.domain.service;
 
 import java.util.Collection;
+import par2019.domain.model.entity.Grafica;
 import par2019.domain.model.entity.Materia;
 
 /**
@@ -98,5 +99,12 @@ public interface MateriaService {
      */
     public Collection<Materia> findByMateriasCursoTestDisponible(String NameCurso) throws Exception;
     
+    /**
+     *
+     * @param NameCurso
+     * @return
+     * @throws Exception
+     */
+    public Collection<Grafica> contenidoMaterias(String NameCurso) throws Exception;
     
 }
