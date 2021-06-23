@@ -117,7 +117,7 @@ public class CursoServiceImpl extends BaseService<Curso, Integer> implements Cur
 //        }
         return CursoRepository.findByIdProfesor(idProfesor);
     }
-
+    
     @Override
     public int cantAlumnos(String curso) throws Exception {
         int bandera = 0;

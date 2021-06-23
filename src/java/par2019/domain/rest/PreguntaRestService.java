@@ -62,7 +62,7 @@ private final PreguntaServiceImpl preguntaService = new PreguntaServiceImpl(new 
         return preguntas;
     }
     
-    @GET
+     @GET
     @Path("/estadisticas/{idCuestionario}")
     @Produces("application/json")
     public ArrayList<EstadisticaPregunta> getEstadisticas(@PathParam("idCuestionario") int idCuestionario){

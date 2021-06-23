@@ -38,4 +38,16 @@ public interface RankingRepository<Ranking, Integer> extends Repository<Ranking,
      * @return
      */
     public Collection<Ranking> rankingGlobal(String nameCurso, String nameMateria);
+      /**
+     * @param idCurso
+     * @param idMateria 
+     * @return
+     */
+    public Collection<Ranking> rankingGlobalbyId(int idCurso, int idMateria);
+    /**
+     *
+     * @param idCuestionario
+     * @return
+     */
+    public Collection<Ranking> listaPuntajesC(int idCuestionario);
 }

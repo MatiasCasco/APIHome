@@ -21,6 +21,13 @@ public interface TestService {
      * @throws Exception
      */
     public Collection<Test> Test(int Cuestionario) throws Exception;
+     /**
+     *
+     * @param Cuestionario
+     * @return
+     * @throws Exception
+     */
+    public Collection<Test> WebTest(int Cuestionario) throws Exception;
     //public Collection<String>Test(int Cuestionario) throws Exception;
      /**
      *
@@ -36,6 +43,13 @@ public interface TestService {
      * @param puntoRealizado
      */
     public void addPuntosXPregunta(int idAlumno, int idPregunta, int puntoRealizado) throws Exception;
+     /**
+     *
+     * @param idAlumno
+     * @param idPregunta
+     * @param puntoObtenido
+     */
+    public void updatePuntosXPregunta(int idAlumno, int idPregunta, int puntoObtenido) throws Exception;
 
     /**
      *

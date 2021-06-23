@@ -26,4 +26,16 @@ public interface RankingService {
      * @return
      */
     public Collection<Ranking> rankingGlobal(String nameCurso, String nameMateria) throws Exception;
+     /**
+     * @param idCurso
+     * @param idMateria 
+     * @return
+     */
+    public Collection<Ranking> rankingGlobalById(int idCurso,int idMateria) throws Exception;
+    
+     /**
+     * @param idCuestionario
+     * @return Lista de resupestas de un cuestionario
+     */
+    public Collection<Ranking> listaPuntajesC(int idCuestionario) throws Exception;;
 }

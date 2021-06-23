@@ -23,6 +23,14 @@ public interface TestRepository<Test, Integer> extends Repository<Test, Integer>
      * @throws Exception
      */
     public Collection<Test> Test(int Cuestionario) throws Exception;
+    /**
+     *
+     * @param Cuestionario
+     * @return
+     * @throws Exception
+     */
+    public Collection<Test> WebTest(int Cuestionario) throws Exception;
+    
     
     /**
      *
@@ -85,4 +93,14 @@ public interface TestRepository<Test, Integer> extends Repository<Test, Integer>
      * @param puntoRealizado
      */
     public void addPuntosXCuestionarios(int idAlumno, int idCuestionario, int puntoRealizado) throws Exception;
+    
+    
+     /**
+     *
+     * @param idAlumno
+     * @param idPregunta
+     * @param puntoObtenido
+     */
+    public void updatePuntosXPregunta(int idAlumno, int idPregunta, int puntoObtenido) throws Exception;
+
 }

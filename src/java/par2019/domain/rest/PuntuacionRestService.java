@@ -52,5 +52,19 @@ public class PuntuacionRestService {
     public ArrayList<Ranking> getRankingGlobal(@PathParam("nameCurso") String nameCurso, @PathParam("nameMateria") String nameMateria) throws Exception {
         ArrayList<Ranking> rankingG = (ArrayList<Ranking>) rankingService.rankingGlobal(nameCurso, nameMateria);
         return rankingG;
-    }    
+    } 
+    @GET
+    @Path("/rankingGlobal/idcurso/{idCurso}/idmateria/{idMateria}")
+    @Produces("application/json")
+    public ArrayList<Ranking> getRankingGlobalById(@PathParam("idCurso") int idCurso, @PathParam("idMateria") int idMateria) throws Exception {
+        ArrayList<Ranking> rankingG = (ArrayList<Ranking>) rankingService.rankingGlobalById(idCurso, idMateria);
+        return rankingG;
+    } 
+    @GET
+    @Path("/puntuaciones/{idCuestionario}")
+    @Produces("application/json")
+    public ArrayList<Ranking> getPuntuacionesCuestionario(@PathParam("idCuestionario") int idCuestionario) throws Exception {
+        ArrayList<Ranking> ranking = (ArrayList<Ranking>) rankingService.listaPuntajesC(idCuestionario);
+        return ranking;
+    }
 }

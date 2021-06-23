@@ -93,7 +93,6 @@ public class CursoRestService {
         }
         return null;
     }
-    
     @GET
     @Path("/cursoName/{NameCurso}")
     @Produces("application/json")
@@ -106,6 +105,7 @@ public class CursoRestService {
         }
         return null;
     }
+    
     
     @GET
     @Path("/alumnos/{NameCurso}")
@@ -120,7 +120,6 @@ public class CursoRestService {
         }
         return alumnos;
     }
-    
     @POST
     @Path("/cursos")
     @Consumes("application/json")

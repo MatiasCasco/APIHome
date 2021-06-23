@@ -7,8 +7,8 @@ package par2019.domain.service;
 
 import java.util.Collection;
 import par2019.domain.model.entity.Cuestionario;
-import par2019.domain.model.entity.Grafica;
 import par2019.domain.repository.CuestionarioRepository;
+import par2019.domain.model.entity.Grafica;
 import par2019.domain.repository.Repository;
 
 /**
@@ -146,7 +146,7 @@ public class CuestionarioServiceImpl extends BaseService<Cuestionario, Integer> 
     public Collection<Cuestionario> findByIdProfesor(int idProfesor) throws Exception {
         return CuestionarioRepository.findByIdProfesor(idProfesor);
     }
-
+ 
     @Override
     public Collection<Grafica> resumenEvaluacion(int idCuestionario) throws Exception {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -164,6 +164,5 @@ public class CuestionarioServiceImpl extends BaseService<Cuestionario, Integer> 
             throw new Exception(String.format("No se encontro el identificador %d del cuestionario", idCuestionario)); 
         }
         return CuestionarioRepository.cuestionarioAlumnos(idCuestionario);
-    }
-    
+    }   
 }

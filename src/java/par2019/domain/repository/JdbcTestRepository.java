@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -64,7 +64,7 @@ public class JdbcTestRepository implements TestRepository<Test, Integer> {
         List<Integer> listIdR= new ArrayList();
         List<Integer> listaE = new ArrayList();
         List<String> listaR = new ArrayList(); // Contiene las respuestas de cada pregunta
-        final String link  = "http://192.168.0.2:8084/homeApi/rest/imageApi/image/";
+        final String link  = "http://192.168.0.2:8084/homeApi/rest/imageApi/image/"; 
         String image = "";
 //        List list1 = new ArrayList();
 //        List<String> list2 = new ArrayList();
@@ -127,6 +127,76 @@ public class JdbcTestRepository implements TestRepository<Test, Integer> {
         }
         return retValue;
     }
+     @Override
+    public Collection<Test> WebTest(int Cuestionario) throws Exception {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Test> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        List<String> listaP = new ArrayList();
+        List<Integer> listIndex = new ArrayList();
+        List<Integer> listPunto= new ArrayList();
+        List<Integer> listIdR= new ArrayList();
+        List<Integer> listaE = new ArrayList();
+        List<String> listaR = new ArrayList(); // Contiene las respuestas de cada pregunta
+        final String link  = "";
+        String image = "";
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select p.idpregunta, p.pregunta, p.puntoasignado from pregunta p, cuestionario c \n" +
+            "where c.idcuestionario = p.idcuestionario and c.idcuestionario = ? \n" +
+            "ORDER BY p.idpregunta");
+            
+            pstmt.setInt(1, Cuestionario);
+            
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {  
+                listaP.add(rs.getString("pregunta"));
+                listIndex.add(rs.getInt("idpregunta"));
+                listPunto.add(rs.getInt("puntoasignado"));
+            }
+            for(int i = 0; i < listaP.size(); i++) {
+                pstmt = c.prepareStatement("select r.idrta, r.rtas, r.evaluacion from respuesta r, pregunta p, cuestionario c"
+                        + " where r.idpregunta = p.idpregunta and p.idcuestionario = c.idcuestionario"
+                        + " and p.idpregunta = ? ");
+                pstmt.setInt(1, (int) listIndex.get(i));
+                image = link + listIndex.get(i);
+                rs = pstmt.executeQuery();
+                int x = 0;
+                while (rs.next()) {
+                    listIdR.add(rs.getInt("idrta"));
+                    listaR.add(rs.getString("rtas"));
+                    if(rs.getInt("evaluacion")== 1) listaE.add(x);
+                    x++;
+                }
+                retValue.add(new Test(listIndex.get(i), listaE, listIndex.get(i) , listaP.get(i), listPunto.get(i),image,listaR, listIdR));
+                listaR = new ArrayList();
+                listaE = new ArrayList();    
+                listIdR = new ArrayList();
+            }
+//            retValue.add(new Test(1,list1,listaP.get(1),"imagen",list2));
+            return retValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
+
 
     @Override
     public void add(Test entity) {
@@ -466,5 +536,33 @@ public class JdbcTestRepository implements TestRepository<Test, Integer> {
         }
         return retValue;
     }
+
+    @Override
+    public void updatePuntosXPregunta(int idAlumno, int idPregunta, int puntoObtenido) throws Exception {
+             ///throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection c = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("UPDATE rta_alumnos SET puntorealizado = ? WHERE idalumno = ? AND idpregunta= ? ");
+
+            pstmt.setInt(1, puntoObtenido); 
+            pstmt.setInt(2, idAlumno);
+            pstmt.setInt(3, idPregunta);
+             
+            pstmt.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }}
     
 }

@@ -17,8 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import par2019.domain.model.entity.Cuestionario;
 import par2019.domain.model.entity.Entity;
-import par2019.domain.model.entity.Grafica;
 import par2019.domain.model.entity.Materia;
+import par2019.domain.model.entity.Grafica;
 import par2019.util.DBUtils;
 
 /**
@@ -657,8 +657,8 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
                 Logger.getLogger(JdbcCuestionarioRepository.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return retValue;}
-
+        return retValue;
+    }
     @Override
     public Collection<Grafica> resumenEvaluacion(int idCuestionario) throws Exception {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -666,7 +666,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
         Connection c = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        
+
         try {
             c = DBUtils.getConnection();
             pstmt = c.prepareStatement("select count(round(100*p.puntaje/(select sum(puntoasignado) from pregunta where idcuestionario = ?),2)) as mayor, (select count(pe.id) from persona pe, alumno a, curso cu, materia m, cuestionario cue where pe.id = a.id and a.idCurso = cu.idcurso and cu.idcurso = m.idcurso and m.idmateria = cue.idmateria and cue.idcuestionario = ?) as alumnos from cuestionario c, puntuaciones p where c.idcuestionario = p.idcuestionario and p.idcuestionario = ? and round(100*p.puntaje/(select sum(puntoasignado) from pregunta where idcuestionario = ?),2) >= 70 ");
@@ -706,7 +706,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
         Connection c = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        
+
         try {
             c = DBUtils.getConnection();
             pstmt = c.prepareStatement("SELECT count(p.id) as presentes,"

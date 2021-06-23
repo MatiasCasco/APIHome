@@ -36,4 +36,20 @@ public class RankingServiceImpl extends BaseService<Ranking, Integer>  implement
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return RankingRepository.rankingGlobal(nameCurso, nameMateria);
     }
+
+    @Override
+    public Collection<Ranking> rankingGlobalById(int idCurso, int idMateria) throws Exception {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         return RankingRepository.rankingGlobalbyId(idCurso, idMateria);
+    }
+
+    @Override
+    public Collection<Ranking> listaPuntajesC(int idCuestionario) throws Exception {
+       //To change body of generated methods, choose Tools | Templates
+          //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!RankingRepository.containsIdCuestionario(idCuestionario)){
+            throw new Exception(String.format("No se encontro el identificador %d del cuestionario", idCuestionario)); 
+        }
+        return RankingRepository.listaPuntajesC(idCuestionario);
+    }
 }   

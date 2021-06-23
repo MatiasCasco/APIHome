@@ -10,11 +10,27 @@ package par2019.domain.model.entity;
  * @author User
  */
 public class Ranking implements Comparable<Ranking>{
+    private int id;
     private String nombre;
     private String apellido;
     private int puntos;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     private int puntosMateria;
     private int puntosObtenido;
+    
+     public Ranking(int id,String nombre, String apellido, int puntos) {
+        this.id=id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.puntos = puntos;
+    }
 
     public Ranking(String nombre, String apellido, int puntos) {
         this.nombre = nombre;

@@ -58,4 +58,5 @@ public interface PreguntaRepository<Pregunta, Integer> extends Repository<Pregun
      * @throws Exception
      */
     public Collection<EstadisticaPregunta> getEstadisticas(int idCuestionario) throws Exception;
+    
 }

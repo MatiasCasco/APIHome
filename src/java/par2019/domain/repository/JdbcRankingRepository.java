@@ -197,4 +197,112 @@ public class JdbcRankingRepository implements RankingRepository<Ranking, Integer
     public Collection<Ranking> getAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }   
+
+    @Override
+    public Collection<Ranking> rankingGlobalbyId(int idCurso, int idMateria) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Ranking> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<Integer> list = new ArrayList();
+        List<Ranking> lista = new ArrayList();
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("SELECT id FROM alumno");
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {  
+                //retValue.add(new Ranking(rs.getString("nombre"),rs.getString("apellido"), rs.getInt("puntaje")));
+                list.add(rs.getInt("id"));
+            }
+            for(int i = 0; i < list.size(); i++) {
+                pstmt = c.prepareStatement("SELECT a.id, pe.nombre, pe.apellido, subquery1.puntos, subquery2.puntaje\n" +
+                          "FROM alumno a join persona pe join \n" +
+                               "(SELECT cu.idcurso, m.idmateria, SUM(c.puntos) AS puntos\n" +
+                                "FROM curso cu JOIN materia m join cuestionario c on cu.idcurso = m.idcurso AND m.idmateria = c.idmateria \n" +
+                                "WHERE cu.idcurso = ?  AND m.idmateria = ? \n" +
+                            ") AS subquery1 join\n" +
+                            "(SELECT p.id, cu.idcurso, SUM(p.puntaje) AS puntaje\n" +
+                                "FROM puntuaciones p join cuestionario c join materia m join curso cu\n" +
+                                    "on p.idcuestionario = c.idcuestionario AND c.idmateria = m.idmateria AND cu.idcurso = m.idcurso\n" +
+                                    "WHERE cu.idcurso=?  AND m.idmateria=? AND p.id = ? \n" +
+                                ") AS subquery2\n" +
+                            "on subquery1.idcurso = subquery2.idcurso AND subquery2.id = a.id AND pe.id = a.id"
+                        + "");
+                pstmt.setInt(1, idCurso);
+                pstmt.setInt(2, idMateria);
+                pstmt.setInt(3, idCurso);
+                pstmt.setInt(4, idMateria);
+                pstmt.setInt(5, list.get(i));
+                //pstmt.setInt(6, list.get(i));
+                rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    Ranking r=new Ranking(rs.getString("nombre"), rs.getString("apellido"), rs.getInt("puntos"), rs.getInt("puntaje"));
+                    lista.add(r);
+                }
+            }   
+            Collections.sort(lista,Collections.reverseOrder());
+            lista.stream().forEach((r) -> {
+                retValue.add(r);
+             });   
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
+    
+    
+
+    @Override
+    public Collection<Ranking> listaPuntajesC(int idCuestionario) {
+       Collection<Ranking> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("SELECT p.id, p.nombre, p.apellido, pu.puntaje \n" +
+                "from puntuaciones pu join persona p\n" +
+                "on pu.id = p.id where pu.idcuestionario = ? ORDER BY pu.puntaje DESC");
+            pstmt.setInt(1, idCuestionario);
+
+            rs = pstmt.executeQuery();
+            Ranking r;
+            while (rs.next()) {  
+                 r=new Ranking(rs.getInt("id"),rs.getString("nombre"),rs.getString("apellido"), rs.getInt("puntaje"));
+                 retValue.add(r);
+               
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
+    
 }

@@ -17,7 +17,7 @@ public class resumenSemestre {
 
     public resumenSemestre() {
     }
-    
+
     public resumenSemestre(String materia, int test, int promedio, int mes) {
         this.materia = materia;
         this.test = test;
@@ -56,7 +56,7 @@ public class resumenSemestre {
     public void setMes(int mes) {
         this.mes = mes;
     }
-    
+
     @Override
     public String toString() {
         return new StringBuilder("{materia: ").append(materia)

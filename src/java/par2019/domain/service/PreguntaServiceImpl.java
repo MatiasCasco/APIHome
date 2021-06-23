@@ -98,7 +98,7 @@ public class PreguntaServiceImpl extends BaseService<Pregunta, Integer> implemen
         }
         return PreguntaRepository.getPregunta(idPregunta);
     }
-
+  
     @Override
     public Collection<EstadisticaPregunta> getEstadisticas(int idCuestionario) throws Exception {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -107,5 +107,4 @@ public class PreguntaServiceImpl extends BaseService<Pregunta, Integer> implemen
         }
         return PreguntaRepository.getEstadisticas(idCuestionario);
     }
-     
 }

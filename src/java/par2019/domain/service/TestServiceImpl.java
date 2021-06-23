@@ -35,6 +35,15 @@ public class TestServiceImpl extends BaseService<Test, Integer> implements TestS
         }
         return TestRepository.Test(Cuestionario);
     }
+@Override
+    public Collection<Test> WebTest(int Cuestionario) throws Exception {
+    //public Collection<String> Test(int Cuestionario) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!TestRepository.containsIdCuestionario(Cuestionario)){
+            throw new Exception(String.format("No se encontro el identificador del cuestionario %d", Cuestionario)); 
+        }
+        return TestRepository.WebTest(Cuestionario);
+    }
 
     @Override
     public void addRtaMarcadas(int idAlumno, int idrta) throws Exception {
@@ -118,6 +127,27 @@ public class TestServiceImpl extends BaseService<Test, Integer> implements TestS
             throw new Exception(String.format("No se encontro el identificador del alumno %d", Alumno)); 
         }
         return TestRepository.TestRecuperacion(Cuestionario, Alumno);
+    }
+
+    @Override
+    public void updatePuntosXPregunta(int idAlumno, int idPregunta, int puntoObtenido) throws Exception {
+    
+     int bandera = 0;
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!TestRepository.containsIdPregunta(idPregunta)){
+            bandera = 1;
+            throw new Exception(String.format("No existe en BD el id de pregunta %d", idPregunta));
+        }
+       
+        if (!TestRepository.containsIdAlumno(idAlumno)) {
+            bandera = 1;
+            throw new Exception(String.format("No existe el id del alumno %d",idAlumno));
+        }
+        
+        if(bandera == 0){
+            TestRepository.updatePuntosXPregunta(idAlumno, idPregunta, puntoObtenido);
+        } 
+    
     }
     
     

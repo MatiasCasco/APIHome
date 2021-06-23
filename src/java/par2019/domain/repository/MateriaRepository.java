@@ -6,8 +6,8 @@
 package par2019.domain.repository;
 
 import java.util.Collection;
-import par2019.domain.model.entity.Grafica;
 import par2019.domain.model.entity.Materia;
+import par2019.domain.model.entity.Grafica;
 
 /**
  *
@@ -86,15 +86,14 @@ public interface MateriaRepository<Materia, Integer> extends Repository<Materia,
      * @throws Exception
      */
     public Collection<Materia> findByNameMateria(String NameMateria) throws Exception;
-    
-     /**
+      /**
      *
      * @param NameCurso
      * @return
      * @throws Exception
      */
     public Collection<Grafica> contenidoMaterias(String NameCurso) throws Exception;
-    
+
     public Collection<Materia> findByProfesor(int idProfesor);
     public Collection<Materia> findByCurso(int idCurso);
     

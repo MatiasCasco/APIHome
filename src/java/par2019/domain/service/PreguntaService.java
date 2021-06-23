@@ -58,7 +58,7 @@ public interface PreguntaService {
      * @throws Exception
      */
     public Pregunta getPregunta(int idPregunta) throws Exception;
-    
+     
     /**
      * 
      * @param idCuestionario

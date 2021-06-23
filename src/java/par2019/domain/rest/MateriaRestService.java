@@ -76,7 +76,7 @@ public class MateriaRestService {
         return materias;
     }
     
-    @GET
+     @GET
     @Path("/grafica/{NameCurso}")
     @Produces("application/json")
     public ArrayList<Grafica> getGraficaContenidoM(@PathParam("NameCurso") String NameCurso){
@@ -88,7 +88,7 @@ public class MateriaRestService {
         }
         return materias;
     }
- 
+    
     @GET
     @Path("/retos/{NameCurso}")
     @Produces("application/json")
@@ -101,7 +101,7 @@ public class MateriaRestService {
         }
         return materias;
     }
-    
+
      @GET
     @Path("/test/{NameCurso}")
     @Produces("application/json")

@@ -69,7 +69,6 @@ public class CuestionarioRestService {
         ArrayList<Grafica> graficas = (ArrayList<Grafica>) cuestionarioService.cuestionarioAlumnos(id);
         return graficas;
     }
-    
     @GET 
     @Path("/cuestionariosOFCurso/{curso}")
     @Produces("application/json")
@@ -98,10 +97,11 @@ public class CuestionarioRestService {
     @Path("/alumno/{alumno}/materia/{materia}")
     @Produces("application/json")
     public ArrayList<Cuestionario> getBYAlumnoAndMateria(@PathParam("alumno") int alumno, @PathParam("materia") int materiaName) throws Exception {
-        ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByAlumnoAndMateria(alumno, materiaName);
+          ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioService.findByAlumnoAndMateria(alumno, materiaName);
         return cuestionarios;
     }
-    
+
+
     @GET
     @Path("/resumen/{idCuestionario}")
     @Produces("application/json")

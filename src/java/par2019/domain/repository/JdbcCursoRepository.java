@@ -18,6 +18,7 @@ import par2019.domain.model.entity.Entity;
 import par2019.domain.model.entity.resumenSemestre;
 import par2019.util.DBUtils;
 
+
 /**
  *
  * @author Matias
@@ -347,7 +348,7 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
 
     @Override
    public Collection<Curso> findByIdProfesor(int idProfesor) throws Exception {
-        Collection<Curso> retValue = new ArrayList();
+      Collection<Curso> retValue = new ArrayList();
 
         Connection c = null;
         PreparedStatement pstmt = null;
@@ -385,10 +386,9 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
         }
         return retValue;
     
-    
-    //
+  
     }
-
+   
     @Override
     public int cantAlumnos(String curso) throws Exception {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -466,8 +466,8 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
             }
         }
         return retValue;
-    
-    
+
+
     }
     
 }

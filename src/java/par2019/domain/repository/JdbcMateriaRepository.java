@@ -475,12 +475,11 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
                 Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return retValue;
-    
+        return retValue;   
     
     }
-
-    @Override
+    
+      @Override
     public Collection<Materia> findByMateriasCursoDisponible(String NameCurso) throws Exception {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Collection<Materia> retValue = new ArrayList();
@@ -545,7 +544,7 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
         }
         return retValue;
     }
-
+   
     @Override
     public Collection<Grafica> contenidoMaterias(String NameCurso) throws Exception {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -553,7 +552,7 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
         Connection c = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        
+
         try {
             c = DBUtils.getConnection();
             pstmt = c.prepareStatement("SELECT DISTINCT cu.idcurso, m.nombremateria, (SELECT count(puntos) from cuestionario where idmateria = m.idmateria) as suma FROM curso cu, materia m, cuestionario c WHERE cu.idcurso = m.idcurso AND m.idmateria = c.idmateria AND UPPER(cu.nombrecurso) LIKE UPPER(?)");
@@ -582,5 +581,4 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
         }
         return retValue;
     }
-    
 }

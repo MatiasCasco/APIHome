@@ -46,6 +46,21 @@ public class TestRestService {
        }
         return test;
     }
+    @GET
+    @Path("/webtest/{Cuestionario}")
+    @Produces("application/json")
+    public ArrayList<Test> getWebTest(@PathParam("Cuestionario") int Cuestionario) {
+    //public ArrayList<String> getTest(@PathParam("Cuestionario") int Cuestionario) {
+       ArrayList<Test> test = new ArrayList();
+        //ArrayList<String> test = new ArrayList();
+       try {
+            test = (ArrayList<Test>) TestService.WebTest(Cuestionario);
+            //test =  (ArrayList<String>) TestService.Test(Cuestionario);
+       } catch (Exception ex) {
+           Logger.getLogger(RetoRestService.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        return test;
+    }
     
     @GET
     @Path("/test/{Cuestionario}/alumno/{Alumno}")
@@ -89,4 +104,19 @@ public class TestRestService {
         String cadena = "Se inserto con exito";
         return cadena;
     }
+    
+    
+    
+    @PUT
+    @Path("/pregunta/{idPregunta}/alumno/{idAlumno}/puntos/{Puntaje}")
+    
+    public void updatePuntaje(@PathParam("idPregunta") int idPregunta,@PathParam("idAlumno") int idAlumno,@PathParam("Puntaje") int Puntaje) throws Exception{
+        
+         try {
+            TestService.updatePuntosXPregunta(idAlumno, idPregunta, Puntaje);
+        } catch (Exception ex) {
+            Logger.getLogger(TestRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

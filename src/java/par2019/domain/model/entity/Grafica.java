@@ -35,7 +35,7 @@ public class Grafica {
     public void setDrilldown(String drilldown) {
         this.drilldown = drilldown;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -43,7 +43,7 @@ public class Grafica {
     public void setName(String name) {
         this.name = name;
     }
-   
+
      @Override
     public String toString() {
         return new StringBuilder("{name: ").append(name)

@@ -319,8 +319,8 @@ public class JdbcPreguntaRepository implements PreguntaRepository<Pregunta, Inte
         }
         return retValue;
     }
-
-    @Override
+    
+   @Override
     public Collection<EstadisticaPregunta> getEstadisticas(int idCuestionario) throws Exception {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Collection<EstadisticaPregunta> retValue = new ArrayList();
@@ -364,5 +364,4 @@ public class JdbcPreguntaRepository implements PreguntaRepository<Pregunta, Inte
         }
         return retValue;
     }
-    
 }
