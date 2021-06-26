@@ -8,6 +8,7 @@ package par2019.domain.service;
 import java.util.Collection;
 import java.util.List;
 import par2019.domain.model.entity.Test;
+import par2019.domain.model.entity.reporte;
 import par2019.domain.repository.TestRepository;
 
 /**
@@ -149,6 +150,13 @@ public class TestServiceImpl extends BaseService<Test, Integer> implements TestS
         } 
     
     }
-    
-    
+
+    @Override
+    public Collection<reporte> reporteTest(int Cuestionario) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!TestRepository.containsIdCuestionario(Cuestionario)){
+            throw new Exception(String.format("No se encontro el identificador del cuestionario %d", Cuestionario)); 
+        }
+        return TestRepository.reporte(Cuestionario);
+    }
 }

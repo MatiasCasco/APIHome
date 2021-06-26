@@ -18,6 +18,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import par2019.domain.model.entity.Test;
+import par2019.domain.model.entity.reporte;
 import par2019.domain.repository.JdbcTestRepository;
 import par2019.domain.service.TestServiceImpl;
 
@@ -76,6 +77,14 @@ public class TestRestService {
            Logger.getLogger(RetoRestService.class.getName()).log(Level.SEVERE, null, ex);
        }
         return test;
+    }
+    
+    @GET
+    @Path("/reporte/{Cuestionario}")
+    @Produces("application/json")
+    public ArrayList<reporte> getReporte(@PathParam("Cuestionario") int Cuestionario) throws Exception {
+       ArrayList<reporte> reporte = (ArrayList<reporte>) TestService.reporteTest(Cuestionario);
+       return reporte;
     }
     
     @POST

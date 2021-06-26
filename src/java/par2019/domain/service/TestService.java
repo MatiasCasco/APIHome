@@ -7,6 +7,7 @@ package par2019.domain.service;
 
 import java.util.Collection;
 import par2019.domain.model.entity.Test;
+import par2019.domain.model.entity.reporte;
 import par2019.domain.repository.TestRepository;
 
 /**
@@ -76,4 +77,12 @@ public interface TestService {
      * @throws Exception
      */
     public Collection<Test> TestRecuperacion(int Cuestionario, int Alumno) throws Exception;
+    
+     /**
+     *
+     * @param Cuestionario
+     * @return
+     * @throws Exception
+     */
+    public Collection<reporte> reporteTest(int Cuestionario) throws Exception;
 }

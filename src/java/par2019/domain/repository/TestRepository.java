@@ -3,6 +3,7 @@ package par2019.domain.repository;
 
 import java.util.Collection;
 import java.util.List;
+import par2019.domain.model.entity.reporte;
 
 
 /**
@@ -94,7 +95,6 @@ public interface TestRepository<Test, Integer> extends Repository<Test, Integer>
      */
     public void addPuntosXCuestionarios(int idAlumno, int idCuestionario, int puntoRealizado) throws Exception;
     
-    
      /**
      *
      * @param idAlumno
@@ -102,5 +102,12 @@ public interface TestRepository<Test, Integer> extends Repository<Test, Integer>
      * @param puntoObtenido
      */
     public void updatePuntosXPregunta(int idAlumno, int idPregunta, int puntoObtenido) throws Exception;
-
+    
+    /**
+     *
+     * @param Cuestionario
+     * @return
+     * @throws Exception
+     */
+    public Collection<reporte> reporte(int Cuestionario) throws Exception;
 }

@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import par2019.domain.model.entity.Entity;
 import par2019.domain.model.entity.Test;
+import par2019.domain.model.entity.reporte;
 import par2019.util.DBUtils;
 
 /**
@@ -564,5 +565,48 @@ public class JdbcTestRepository implements TestRepository<Test, Integer> {
                 Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
             }
         }}
+
+    @Override
+    public Collection<par2019.domain.model.entity.reporte> reporte(int Cuestionario) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<reporte> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int indice = 0;
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("SELECT  a.id, CONCAT(pe.apellido, ' ', pe.nombre) as ApellidoNombre, "
+            + "(select sum(p.puntoasignado) from pregunta p, cuestionario cue "
+            + "where p.idcuestionario = cue.idcuestionario and cue.idcuestionario = c.idcuestionario) as TP,"
+            + " COALESCE((SELECT sum(rt.puntorealizado) from rta_alumnos rt, pregunta pr "
+            + "where rt.idpregunta = pr.idpregunta and rt.idalumno = a.id "
+            + "and pr.idcuestionario = c.idcuestionario),0) as PL "
+            + "from alumno a, persona pe, materia m, cuestionario c "
+            + "where a.idcurso = m.idcurso and m.idmateria = c.idmateria and a.id = pe.id "
+            + "and c.idcuestionario = ? ORDER BY ApellidoNombre");
+            pstmt.setInt(1, Cuestionario);           
+            rs = pstmt.executeQuery();
+            while (rs.next()) {  
+                retValue.add(new reporte(indice++,'"'+rs.getString("ApellidoNombre")+'"', rs.getInt("TP"), rs.getInt("PL")));
+            }         
+            return retValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
     
 }
