@@ -106,6 +106,13 @@ public interface MateriaService {
      * @throws Exception
      */
     public Collection<Grafica> contenidoMaterias(String NameCurso) throws Exception;
+    /**
+     *
+     * @param idCurso
+     * @return
+     * @throws Exception
+     */
+    public Collection<Grafica> contenidoXMaterias(int idCurso) throws Exception;
     
     
     

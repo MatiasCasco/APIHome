@@ -581,4 +581,43 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
         }
         return retValue;
     }
+
+    @Override
+    public Collection<Grafica> contenidoXMaterias(int idCurso) throws Exception {
+       Collection<Grafica> retValue = new ArrayList();
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("SELECT DISTINCT cu.idcurso, m.nombremateria, (SELECT count(puntos) from cuestionario where idmateria = m.idmateria) as suma"
+                    + " FROM curso cu, materia m, cuestionario c "
+                    + "WHERE cu.idcurso = m.idcurso AND m.idmateria = c.idmateria "
+                    + "AND cu.idcurso = ? ");
+            pstmt.setInt(1, idCurso);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                retValue.add(new Grafica(rs.getString("nombremateria"), rs.getInt("suma"), rs.getString("nombremateria")));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcMateriaRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return retValue;
+    }
 }

@@ -173,4 +173,14 @@ public class MateriaServiceImpl extends BaseService<Materia, Integer> implements
         }
         return MateriaRepository.contenidoMaterias(NameCurso);
     }
+
+    @Override
+    public Collection<Grafica> contenidoXMaterias(int idCurso) throws Exception {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+         if (MateriaRepository.ContainsIdCurso(idCurso) == false){ 
+            throw new Exception(String.format("No existe el curso ",idCurso));
+        }
+        return MateriaRepository.contenidoXMaterias(idCurso);
+    }
 }

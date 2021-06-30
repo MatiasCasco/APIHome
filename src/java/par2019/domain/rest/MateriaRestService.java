@@ -88,7 +88,18 @@ public class MateriaRestService {
         }
         return materias;
     }
-    
+     @GET
+    @Path("/grafica/idCurso/{idCurso}")
+    @Produces("application/json")
+    public ArrayList<Grafica> getGraficaContenidoMXid(@PathParam("idCurso") int idCurso){
+       ArrayList<Grafica> materias = new ArrayList();
+        try {
+            materias = (ArrayList<Grafica>) materiaService.contenidoXMaterias(idCurso);
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return materias;
+    }
     @GET
     @Path("/retos/{NameCurso}")
     @Produces("application/json")

@@ -93,8 +93,24 @@ public interface MateriaRepository<Materia, Integer> extends Repository<Materia,
      * @throws Exception
      */
     public Collection<Grafica> contenidoMaterias(String NameCurso) throws Exception;
-
+     /*
+     * @param idCurso
+     * @return
+     * @throws Exception
+     */
+    public Collection<Grafica> contenidoXMaterias(int idCurso) throws Exception;
+    
+      /*
+     * @param idProfesor
+     * @return
+     * @throws Exception
+     */
     public Collection<Materia> findByProfesor(int idProfesor);
+      /*
+     * @param idCurso
+     * @return
+     * @throws Exception
+     */
     public Collection<Materia> findByCurso(int idCurso);
     
 }
