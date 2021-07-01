@@ -73,6 +73,13 @@ public interface CursoService {
      * @throws Exception
      */
     public int cantAlumnos(String curso) throws Exception;
+    /**
+     *
+     * @param idCurso
+     * @return 
+     * @throws Exception
+     */
+    public int cantAlumnosXidCurso(int idCurso) throws Exception;
 
     /**
      * @param idCurso

@@ -74,6 +74,13 @@ public interface CursoRepository<Curso, Integer> extends Repository<Curso, Integ
      * @throws Exception
      */
     public int cantAlumnos(String curso) throws Exception;
+    /**
+     *
+     * @param idcurso
+     * @return 
+     * @throws Exception
+     */
+    public int cantAlumnosXidCurso(int idcurso) throws Exception;
 
      /**
      * @param idCurso

@@ -140,5 +140,15 @@ public class CursoServiceImpl extends BaseService<Curso, Integer> implements Cur
         }
         return CursoRepository.resumenSemestre(idCurso, mesApertura, mesCierre);
     }
+
+    @Override
+    public int cantAlumnosXidCurso(int idCurso) throws Exception {
+     try{
+         return CursoRepository.cantAlumnosXidCurso(idCurso);
+     }catch(Exception e){
+         return 0;
+     }
+    
+    }
     
 }

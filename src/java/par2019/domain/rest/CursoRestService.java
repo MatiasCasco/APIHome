@@ -120,6 +120,19 @@ public class CursoRestService {
         }
         return alumnos;
     }
+    @GET
+    @Path("/alumnos/curso/{idCurso}")
+    @Produces("application/json")
+    public int getAlumnosXidCurso(@PathParam("idCurso") int idCurso){
+        int alumnos = 0;
+        try {
+            alumnos = cursoService.cantAlumnosXidCurso(idCurso); 
+            return alumnos;
+        } catch (Exception ex) {
+            Logger.getLogger(CursoRestService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return alumnos;
+    }
     @POST
     @Path("/cursos")
     @Consumes("application/json")

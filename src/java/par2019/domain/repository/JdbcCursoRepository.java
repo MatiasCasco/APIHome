@@ -425,6 +425,43 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
         }
         return cantAlumnos;
     }
+    
+     @Override
+    public int cantAlumnosXidCurso(int curso) throws Exception {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection c = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int cantAlumnos = 0;
+        try {
+            c = DBUtils.getConnection();
+            pstmt = c.prepareStatement("select count(a.id) as cant from alumno a, curso cu "
+                    + "where a.idCurso = cu.idcurso "
+                    + "and cu.idcurso = ?");
+            pstmt.setInt(1, curso);            
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {  
+                cantAlumnos = rs.getInt("cant");
+            }    
+            return cantAlumnos;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                DBUtils.closeConnection(c);
+            } catch (SQLException ex) {
+                Logger.getLogger(JdbcCursoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return cantAlumnos;
+    }
 
     @Override
     public Collection<resumenSemestre> resumenSemestre(int idCurso, int mesApertura, int mesCierre) throws Exception {
