@@ -39,7 +39,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria,m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso, cu.nombrecurso"
+            pstmt = c.prepareStatement("select c.idcuestionario, c.descripcion, c.idmateria,m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso, cu.nombrecurso"
                     + " from cuestionario c, curso cu, materia m where cu.idcurso = m.idcurso and m.idmateria = c.idmateria and c.idcuestionario = ? ORDER BY c.idcuestionario");
 
             pstmt.setInt(1, idCuestionario);
@@ -47,7 +47,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                retValue = new Cuestionario(rs.getInt("idcuestionario"), rs.getInt("idmateria"), rs.getString("nombremateria") ,convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idcurso"), rs.getString("nombrecurso"));
+                retValue = new Cuestionario(rs.getInt("idcuestionario"), rs.getString("descripcion"), rs.getInt("idmateria"), rs.getString("nombremateria") ,convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idcurso"), rs.getString("nombrecurso"));
             } 
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,12 +101,13 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
         try {
             c = DBUtils.getConnection();
             //pstmt = c.prepareStatement("INSERT INTO cuestionario (idmateria, fechacierre, fechainicio, puntos, tiempolimite) values (?, to_date(?,'DD/MM/YY'), to_date(?,'DD/MM/YY'), ?, to_timestamp(?, 'HH24:MI:ss'))");
-            pstmt = c.prepareStatement("INSERT INTO cuestionario (idmateria, fechacierre, fechainicio, puntos, tiempolimite) values (?, ?, ?, ?, ?)");
-            pstmt.setInt(1, (entity.getIdMateria()));
-            pstmt.setString(2, entity.getFechaCierre());
-            pstmt.setString(3, entity.getFechaInicio());
-            pstmt.setInt(4, entity.getPuntos());
-            pstmt.setString(5, entity.getTiempoLimite());
+            pstmt = c.prepareStatement("INSERT INTO cuestionario (descripcion, idmateria, fechacierre, fechainicio, puntos, tiempolimite) values (?, ?, ?, ?, ?, ?)");
+            pstmt.setString(1, (entity.getDescripcion()));
+            pstmt.setInt(2, (entity.getIdMateria()));
+            pstmt.setString(3, entity.getFechaCierre());
+            pstmt.setString(4, entity.getFechaInicio());
+            pstmt.setInt(5, entity.getPuntos());
+            pstmt.setString(6, entity.getTiempoLimite());
             pstmt.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,14 +159,14 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
         try {
             c = DBUtils.getConnection();
 //            pstmt = c.prepareStatement("UPDATE cuestionario SET idmateria = ?, fechacierre = to_date(?,'DD/MM/YY'), fechainicio = to_date(?,'DD/MM/YY'), puntos = ?, tiempolimite = to_timestamp(?, 'HH24:MI') WHERE idcuestionario = ?");
-            pstmt = c.prepareStatement("UPDATE cuestionario SET idmateria = ?, fechacierre = ?, fechainicio = ?, puntos = ?, tiempolimite = ? WHERE idcuestionario = ?");
-
-            pstmt.setInt(1, entity.getIdMateria());
-            pstmt.setString(2, entity.getFechaCierre());
-            pstmt.setString(3, entity.getFechaInicio());
-            pstmt.setInt(4, entity.getPuntos());
-            pstmt.setString(5, entity.getTiempoLimite());
-            pstmt.setInt(6, entity.getIdCuestionario());
+            pstmt = c.prepareStatement("UPDATE cuestionario SET descripcion = ?, idmateria = ?, fechacierre = ?, fechainicio = ?, puntos = ?, tiempolimite = ? WHERE idcuestionario = ?");
+            pstmt.setString(1, entity.getDescripcion());
+            pstmt.setInt(2, entity.getIdMateria());
+            pstmt.setString(3, entity.getFechaCierre());
+            pstmt.setString(4, entity.getFechaInicio());
+            pstmt.setInt(5, entity.getPuntos());
+            pstmt.setString(6, entity.getTiempoLimite());
+            pstmt.setInt(7, entity.getIdCuestionario());
             
             pstmt.executeUpdate();
         } catch (Exception e) {
@@ -243,14 +244,14 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria,m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso, cu.nombrecurso"
+            pstmt = c.prepareStatement("select c.idcuestionario, c.descripcion, c.idmateria,m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso, cu.nombrecurso"
                     + " from cuestionario c, curso cu, materia m where cu.idcurso = m.idcurso and m.idmateria = c.idmateria"
                     + " ORDER BY c.idcuestionario ");
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idcurso"), rs.getString("nombrecurso")));
+                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getString("descripcion"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idcurso"), rs.getString("nombrecurso")));
             }
 
         } catch (Exception e) {
@@ -329,7 +330,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso\n" +
+            pstmt = c.prepareStatement("select c.idcuestionario, c.descripcion,c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso\n" +
                                         "from cuestionario c, curso cu, materia m \n" +
                                         "where cu.idcurso = m.idcurso and m.idmateria = c.idmateria\n" +
                                         "and UPPER(cu.nombrecurso) like UPPER(?) ORDER BY c.idcuestionario");
@@ -338,7 +339,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
             rs = pstmt.executeQuery();
 
             while (rs.next()) {  
-                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idCurso"), rs.getString("nombreCurso")));                 
+                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getString("descripcion"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idCurso"), rs.getString("nombreCurso")));                 
             }
             
             return retValue;
@@ -424,7 +425,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso "
+            pstmt = c.prepareStatement("select c.idcuestionario, c.descripcion, c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso "
                     + "from cuestionario c, curso cu, materia m where cu.idcurso = m.idcurso and m.idmateria = c.idmateria"
                     + " and UPPER(m.nombremateria) like UPPER(?);");
             pstmt.setString(1,nameMateria);
@@ -432,7 +433,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
             rs = pstmt.executeQuery();
 
             while (rs.next()) {  
-                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idCurso"), rs.getString("nombreCurso")));                 
+                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getString("descripcion"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idCurso"), rs.getString("nombreCurso")));                 
             }
             
             return retValue;
@@ -536,7 +537,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso\n" +
+            pstmt = c.prepareStatement("select c.idcuestionario, c.descripcion,c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso\n" +
             "from cuestionario c join curso cu join materia m on cu.idcurso = m.idcurso and m.idmateria = c.idmateria"
                     + " WHERE m.idmateria = ?");
             pstmt.setInt(1,idMateria);
@@ -544,7 +545,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
             rs = pstmt.executeQuery();
 
             while (rs.next()) {  
-                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idCurso"), rs.getString("nombreCurso")));                 
+                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getString("descripcion"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idCurso"), rs.getString("nombreCurso")));                 
             }
             
             return retValue;
@@ -580,7 +581,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("select c.idcuestionario, c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso\n" +
+            pstmt = c.prepareStatement("select c.idcuestionario, c.descripcion, c.idmateria, m.nombremateria,c.fechacierre, c.fechainicio, c.puntos, c.tiempolimite, m.idcurso ,cu.nombrecurso\n" +
             "from cuestionario c join curso cu join materia m on cu.idcurso = m.idcurso and m.idmateria = c.idmateria"
                     + " WHERE cu.idProfesor = ?");
             pstmt.setInt(1,idProfesor);
@@ -588,7 +589,7 @@ public class JdbcCuestionarioRepository implements CuestionarioRepository<Cuesti
             rs = pstmt.executeQuery();
 
             while (rs.next()) {  
-                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idCurso"), rs.getString("nombreCurso")));                 
+                retValue.add(new Cuestionario(rs.getInt("idcuestionario"), rs.getString("descripcion"), rs.getInt("idmateria"), rs.getString("nombremateria"),convertido1.format(rs.getDate("fechacierre")), convertido1.format(rs.getDate("fechainicio")), rs.getInt("puntos"), convertido2.format(rs.getTime("tiempolimite")), rs.getInt("idCurso"), rs.getString("nombreCurso")));                 
             }
             
             return retValue;

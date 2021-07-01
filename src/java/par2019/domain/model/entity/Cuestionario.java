@@ -35,7 +35,7 @@ public class Cuestionario {
         this.nombreCurso = nombreCurso;
     }
     
-      public Cuestionario(int idCuestionario, String descripcion, int idMateria, String nombreMateria, String fechaCierre, String fechaInicio, int puntos, String tiempoLimite, int idCurso, String nombreCurso) {
+    public Cuestionario(int idCuestionario, String descripcion, int idMateria, String nombreMateria, String fechaCierre, String fechaInicio, int puntos, String tiempoLimite, int idCurso, String nombreCurso) {
         this.idCuestionario = idCuestionario;
         this.descripcion = descripcion;
         this.idMateria = idMateria;
