@@ -555,7 +555,9 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT DISTINCT cu.idcurso, m.nombremateria, (SELECT count(puntos) from cuestionario where idmateria = m.idmateria) as suma FROM curso cu, materia m, cuestionario c WHERE cu.idcurso = m.idcurso AND m.idmateria = c.idmateria AND UPPER(cu.nombrecurso) LIKE UPPER(?)");
+            pstmt = c.prepareStatement("SELECT DISTINCT cu.idcurso, m.nombremateria, (SELECT count(puntos) from cuestionario where idmateria = m.idmateria and YEAR(fechacierre) = YEAR(NOW())) as suma FROM curso cu, materia m, cuestionario c "
+                    + "WHERE cu.idcurso = m.idcurso AND m.idmateria = c.idmateria "
+                    + "AND UPPER(cu.nombrecurso) LIKE UPPER(?)");
             pstmt.setString(1, NameCurso);
 
             rs = pstmt.executeQuery();
@@ -591,7 +593,7 @@ public class JdbcMateriaRepository implements MateriaRepository<Materia, Integer
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT DISTINCT cu.idcurso, m.nombremateria, (SELECT count(puntos) from cuestionario where idmateria = m.idmateria) as suma"
+            pstmt = c.prepareStatement("SELECT DISTINCT cu.idcurso, m.nombremateria, (SELECT count(puntos) from cuestionario where idmateria = m.idmateria and YEAR(fechacierre) = YEAR(NOW())) as suma"
                     + " FROM curso cu, materia m, cuestionario c "
                     + "WHERE cu.idcurso = m.idcurso AND m.idmateria = c.idmateria "
                     + "AND cu.idcurso = ? ");

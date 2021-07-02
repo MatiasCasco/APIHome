@@ -65,7 +65,7 @@ public class JdbcTestRepository implements TestRepository<Test, Integer> {
         List<Integer> listIdR= new ArrayList();
         List<Integer> listaE = new ArrayList();
         List<String> listaR = new ArrayList(); // Contiene las respuestas de cada pregunta
-        final String link  = "http://192.168.0.2:8084/homeApi/rest/imageApi/image/"; 
+        final String link  = "http://192.168.0.3:8084/homeApi/rest/imageApi/image/"; 
         String image = "";
 //        List list1 = new ArrayList();
 //        List<String> list2 = new ArrayList();
@@ -404,7 +404,7 @@ public class JdbcTestRepository implements TestRepository<Test, Integer> {
         List<Integer> listaE = new ArrayList();
         List<String> listaR = new ArrayList();
         List<Integer> selected = new ArrayList();// Contiene las respuestas de cada pregunta
-        final String link  = "http://192.168.0.10:8084/homeApi/rest/imageApi/image/";
+        final String link  = "http://192.168.0.3:8084/homeApi/rest/imageApi/image/";
         String image = "";
 //        List list1 = new ArrayList();
 //        List<String> list2 = new ArrayList();
