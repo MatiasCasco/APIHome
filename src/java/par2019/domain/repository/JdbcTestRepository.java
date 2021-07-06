@@ -573,7 +573,7 @@ public class JdbcTestRepository implements TestRepository<Test, Integer> {
         Connection c = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        int indice = 0;
+        int indice = 1;
         try {
             c = DBUtils.getConnection();
             pstmt = c.prepareStatement("SELECT  a.id, CONCAT(pe.apellido, ' ', pe.nombre) as ApellidoNombre, "

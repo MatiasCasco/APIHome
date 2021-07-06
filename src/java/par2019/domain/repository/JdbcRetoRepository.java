@@ -29,6 +29,7 @@ public class JdbcRetoRepository implements RetoRepository<Reto, Integer>{
 
     @Override
     public Collection<Reto> reto(int list, int sizeOptions, String materia, String curso) throws Exception {
+//    public Collection<Reto> reto(int list, int sizeOptions, String materia, String curso) throws Exception {
 //    public List reto(int list, int sizeOptions, String materia) throws Exception {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         List<String> listaP = new ArrayList(); // Almacena todas las preguntas recuperadas de BD
@@ -66,7 +67,7 @@ public class JdbcRetoRepository implements RetoRepository<Reto, Integer>{
             }
             div = (int) div/list;
             if(div >= 2){
-                int numeroAleatorio = (int) Math.ceil(Math.random()*div);
+                int numeroAleatorio = (int) Math.round(Math.random()*div);
                 inicio = numeroAleatorio*list-list;
             } else {
                 inicio = 0;
@@ -116,7 +117,7 @@ public class JdbcRetoRepository implements RetoRepository<Reto, Integer>{
                          contTrue++;
                     }
                 }
-                if(contFalse > (sizeOptions-1) || contTrue > 1){
+                if(contFalse >= (sizeOptions-1) || contTrue > 1){
                     posiciones.clear();
                     posiciones = numerosAleatorio(listaR.size());
                     for (int j=0; j<listaE.size(); j++) {
@@ -126,7 +127,7 @@ public class JdbcRetoRepository implements RetoRepository<Reto, Integer>{
                                     listaOpciones.add(listaR.get((int)posiciones.get(j)));
                                     contV++;
                                 }
-                                if(contV == (sizeOptions-1)){
+                                if(contV == (sizeOptions-1)|| ((j==listaE.size()-1)&&contF==0)){
                                     if(materia.equalsIgnoreCase("guarani")){
                                         listaOpciones.add("Enterovea oî porâ");
                                     } else {
@@ -179,7 +180,15 @@ public class JdbcRetoRepository implements RetoRepository<Reto, Integer>{
                             listaOpciones.add(listaR.get((int)posiciones.get(k)));
                             indexR = (listaOpciones.size()-1);                         
                         }
-                        if(sizeOptions > 3 && listaOpciones.size() < sizeOptions && k == (listaE.size()-1)){
+                        if(contFalse==2 && contTrue==0 &&k == (listaE.size()-1)){
+                            if(materia.equalsIgnoreCase("guarani")){
+                                    listaOpciones.add("Enterovea oî vai");
+                                }else{
+                                    listaOpciones.add("Todas las opciones son falsas");
+                                }
+                            indexR = (listaOpciones.size()-1); 
+                        }
+                        if(sizeOptions > 3 && listaOpciones.size() < sizeOptions && k == (listaE.size()-1) && (contFalse!=2 && contTrue!=0)){
                             int numeroAleatorio = (int) Math.ceil(Math.random()*2);
                             if(numeroAleatorio == 1){
                                 if(materia.equalsIgnoreCase("guarani")){

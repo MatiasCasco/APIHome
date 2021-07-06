@@ -330,7 +330,7 @@ public class JdbcPreguntaRepository implements PreguntaRepository<Pregunta, Inte
         try {
             c = DBUtils.getConnection();
             pstmt = c.prepareStatement("select p.idpregunta, p.pregunta, "
-            + "round(avg(rta.puntorealizado),2) as promedio,"
+            + "(round(avg(rta.puntorealizado),2)*100/p.puntoasignado) as promedio,"
             + " ((select count(*) from rta_alumnos where puntorealizado = p.puntoasignado "
             + "and idpregunta = p.idpregunta)*100/cant) as correcto,"
             + " (100-(select count(*) from rta_alumnos where puntorealizado = p.puntoasignado "
