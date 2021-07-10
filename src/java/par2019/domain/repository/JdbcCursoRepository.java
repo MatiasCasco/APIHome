@@ -281,14 +281,16 @@ public class JdbcCursoRepository implements CursoRepository<Curso, Integer> {
 
         try {
             c = DBUtils.getConnection();
-            pstmt = c.prepareStatement("SELECT c.idcurso, c.idprofesor, p.nombre as nombreprofesor, c.nombrecurso, c.claveprofesor,"
-                    + " c.clavealumno  from curso c, persona p\n" +
-            "where c.idprofesor = p.id");
+            pstmt = c.prepareStatement("SELECT c.idcurso, c.idprofesor, p.nombre as nombreprofesor,p.apellido as apellido, c.nombrecurso, c.claveprofesor,\n" +
+" c.clavealumno  from curso c, persona p\n" +
+"where c.idprofesor = p.id");
+            
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                retValue.add(new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"), rs.getInt("idprofesor"), rs.getString("nombreprofesor"),rs.getString("claveprofesor"), rs.getString("clavealumno")));
+                String nombre="\""+rs.getString("nombreprofesor")+" "+rs.getString("apellido")+"\"";
+                retValue.add(new Curso(rs.getInt("idcurso"), rs.getString("nombrecurso"), rs.getInt("idprofesor"), nombre,rs.getString("claveprofesor"), rs.getString("clavealumno")));
             }
 
         } catch (Exception e) {
